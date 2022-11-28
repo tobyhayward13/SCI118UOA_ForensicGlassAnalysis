@@ -14,8 +14,6 @@
 #' plot.tree(part)
 #'
 plot.tree <- function(part){
-  # Builds a tree diagram given a partition object from scottknott
-
   # Calculate positions of the groups by iterating through tree object and recording the level and position with respect to parent.
 
   # Initialise x and y coordinates corresponding to the vertices of the tree.
