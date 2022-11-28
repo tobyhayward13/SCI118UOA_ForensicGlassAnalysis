@@ -9,6 +9,13 @@
 #' @export numeric
 #'
 #' @examples
+#'
+#' test_ris = generate_indices(8)
+#' partition(test_ris)
+#'
+#' test_ris_varied = generate_indices(.sd_multi = 5) # More variance will give a higher chance of splitting in the algorithm.
+#' partition(test_ris)
+#'
 generate_indices <- function(n = 10, .sd_multi = 1){
   mu = 1.518
   sigma = 4e-5
