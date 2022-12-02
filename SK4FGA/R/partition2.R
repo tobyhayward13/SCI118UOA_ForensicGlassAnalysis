@@ -12,41 +12,35 @@
 #' @export partition
 #'
 partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
-  # Partitions the array in to clusters by the SKM2 algorithm.
-  # index ~ an array of refractive indices
-  # alpha ~ threshold for split
-
-
-  # SK splitting algorithm
 
   recursive_part <- function(data, alpha, i = 1, j = length(data)){
     # This is the algorithm that actually creates the SK tree.
 
     # If the length of the array is 1, return array.
-    if (length(data) == 1) return(data)
+    if (length(data) == 1) return(list(data = do.call(rbind, data), ix = names(data)))
 
-    # Find B_0
-    B0 = find_B0.multi(data)
+    # Find T_0
+    # Returns both T^2 value and index where it was found.
+    T0 = find_T0(data)
 
-    # Find Lambda_*
-    # Lambda variance
-    S2 = 1.6e-9
-    lambda = pi/(2*(pi-2)) * B0$x/S2
+    # Calculate significance
+    n1 = nrow(do.call(rbind, data[1:T0$i]))
+    n2 = nrow(do.call(rbind, data[(T0$i+1):length(data)]))
+    p = ncol(data[[1]])
 
-    # Calculate threshold
-    threshold = calculate_lambda_threshold(k = length(array), alpha = alpha)
+    pvalue = ptsquared(T0, n1, n2, p)
 
-    # If lambda* in lambda* distribution at 100(1-alpha) percentile, split.
-    if (lambda > threshold) { # Typo within thesis (> not <).
+    # If p value is significant to the 100(alpha) level, split.
+    if (pvalue < alpha) {
       return(
         list(
-          recursive_part(list(x = array$x[1:B0$i], ix = array$ix[1:B0$i]), alpha),
-          recursive_part(list(x = array$x[(B0$i+1):length(array$x)], ix = array$ix[(B0$i+1):length(array$x)]), alpha)
+          recursive_part(data[1:T0$i], alpha),
+          recursive_part(data[(T0$i+1):length(data)], alpha)
         )
       )
     }
     # Else return the array
-    return(array)
+    return(list(data = do.call(rbind, data), ix = names(data)))
   }
 
 
@@ -56,13 +50,17 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
   # Recursive algorithm call
   result = recursive_part(data, alpha)
 
-
   # Else, return array of corresponding groups
-  groups = numeric(length(array$x))
+  groups = numeric(length(data))
+  # Groups index correspond to position of data in list of data.
+  item.names = names(data)
 
   untreed.groups = ungroup.partition(result)
   for (i in 1:length(untreed.groups)){
-    for (j in untreed.groups[[i]]$ix) groups[j] = i
+    for (name in untreed.groups[[i]]$ix) {
+      j = which(item.names == name)
+      groups[j] = i
+    }
   }
   return(
     list(
@@ -73,41 +71,4 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
 }
 
 
-
-#' ungroup.partition
-#'
-#' Ungroups the tree object in the output from partition()
-#'
-#' @param tree
-#'
-#' @return A list object containing the indices of the
-#' @export groups
-#'
-ungroup.partition <- function(tree){
-
-  groups = vector('list')
-
-  # Initialise a stack
-  a.stack = vector('list')
-  # Append initial partition to stack
-  a.stack = append(a.stack, list(tree))
-
-  while (length(a.stack) > 0) {
-    # Pop top of stack
-    current = a.stack[[1]]
-    a.stack = a.stack[-1]
-
-    if (has.children(current)){
-      a.stack = append(a.stack, list(current[[1]]))
-      a.stack = append(a.stack, list(current[[2]]))
-      next
-    }
-
-    # Otherwise append the group to the groups list.
-    groups = append(groups, list(current))
-
-  }
-
-  groups
-}
 

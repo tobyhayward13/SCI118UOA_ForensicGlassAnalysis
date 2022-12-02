@@ -40,3 +40,23 @@ find_T2 <- function(d1, d2){
 }
 
 
+#' Calculate the Probability for a given T^2 statistic.
+#'
+#' @param t T^2 statistic.
+#' @param n1 Number of observations in first sample.
+#' @param n2 Number of observations in second sample.
+#' @param p Number of parameters.
+#'
+#' @return A probability.
+#' @export numeric
+#'
+ptsquared <- function(t, n1, n2, p){
+  f = (n1 + n2 - p - 1) / (p * (n1 + n2 - 2)) * t$x
+
+  df1 = p
+  df2 = n1 + n2 - p - 1
+
+  # Probability
+  pf(f, df1, df2, lower.tail = F)
+}
+
