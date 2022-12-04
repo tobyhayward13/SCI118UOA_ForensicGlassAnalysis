@@ -51,7 +51,7 @@ find_T2 <- function(d1, d2){
 #' @export numeric
 #'
 ptsquared <- function(t, n1, n2, p){
-  f = (n1 + n2 - p - 1) / (p * (n1 + n2 - 2)) * t$x
+  f = (n1 + n2 - p - 1) / (p * (n1 + n2 - 2)) * t
 
   df1 = p
   df2 = n1 + n2 - p - 1
