@@ -21,9 +21,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// helloworld
+int helloworld();
+RcppExport SEXP _SK4FGA_helloworld() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(helloworld());
+    return rcpp_result_gen;
+END_RCPP
+}
+// sumofsquares
+double sumofsquares(NumericVector x);
+RcppExport SEXP _SK4FGA_sumofsquares(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sumofsquares(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_SK4FGA_meanC", (DL_FUNC) &_SK4FGA_meanC, 1},
+    {"_SK4FGA_helloworld", (DL_FUNC) &_SK4FGA_helloworld, 0},
+    {"_SK4FGA_sumofsquares", (DL_FUNC) &_SK4FGA_sumofsquares, 1},
     {NULL, NULL, 0}
 };
 

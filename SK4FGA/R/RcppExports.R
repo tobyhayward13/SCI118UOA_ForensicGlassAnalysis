@@ -5,3 +5,11 @@ meanC <- function(x) {
     .Call('_SK4FGA_meanC', PACKAGE = 'SK4FGA', x)
 }
 
+helloworld <- function() {
+    .Call('_SK4FGA_helloworld', PACKAGE = 'SK4FGA')
+}
+
+sumofsquares <- function(x) {
+    .Call('_SK4FGA_sumofsquares', PACKAGE = 'SK4FGA', x)
+}
+

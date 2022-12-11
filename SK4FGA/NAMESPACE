@@ -1,1 +1,3 @@
+useDynLib(SK4FGA)
 exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
