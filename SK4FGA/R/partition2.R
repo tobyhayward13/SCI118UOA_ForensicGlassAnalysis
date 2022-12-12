@@ -26,7 +26,7 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
     # Calculate significance
     n1 = nrow(do.call(rbind, data[1:T0$i]))
     n2 = nrow(do.call(rbind, data[(T0$i+1):length(data)]))
-    p = ncol(data[[1]])
+    p = ncol(data[[1]]) - 2
 
     pvalue = ptsquared(T0$x, n1, n2, p)
 
