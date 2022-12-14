@@ -43,7 +43,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // find_B0_C
-std::pair<double, int> find_B0_C(std::vector<double> arr);
+List find_B0_C(std::vector<double> arr);
 RcppExport SEXP _SK4FGA_find_B0_C(SEXP arrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

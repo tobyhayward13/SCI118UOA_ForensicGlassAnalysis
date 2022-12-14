@@ -10,7 +10,6 @@
 #' @return An estimated 100(1-alpha)% quantile from the distribution of Lambda.
 #' @export numeric
 #'
-#' @examples
 calculate_lambda_threshold_C <- function(k, alpha, .nsims = 1e4) {
   X = matrix(generate_indices(.nsims * k), nrow = .nsims)
   Y = unlist(apply(X, 1, function(r) find_B0_C(r)$x))
