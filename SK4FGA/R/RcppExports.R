@@ -13,3 +13,15 @@ sumofsquares <- function(x) {
     .Call('_SK4FGA_sumofsquares', PACKAGE = 'SK4FGA', x)
 }
 
+find_B0_C <- function(arr) {
+    .Call('_SK4FGA_find_B0_C', PACKAGE = 'SK4FGA', arr)
+}
+
+vecMean <- function(vec) {
+    .Call('_SK4FGA_vecMean', PACKAGE = 'SK4FGA', vec)
+}
+
+whichMax <- function(vec) {
+    .Call('_SK4FGA_whichMax', PACKAGE = 'SK4FGA', vec)
+}
+

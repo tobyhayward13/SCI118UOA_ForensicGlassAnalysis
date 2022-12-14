@@ -42,11 +42,47 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// find_B0_C
+std::pair<double, int> find_B0_C(std::vector<double> arr);
+RcppExport SEXP _SK4FGA_find_B0_C(SEXP arrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double> >::type arr(arrSEXP);
+    rcpp_result_gen = Rcpp::wrap(find_B0_C(arr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// vecMean
+double vecMean(std::vector<double> vec);
+RcppExport SEXP _SK4FGA_vecMean(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double> >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(vecMean(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// whichMax
+int whichMax(std::vector<double> vec);
+RcppExport SEXP _SK4FGA_whichMax(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double> >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(whichMax(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_SK4FGA_meanC", (DL_FUNC) &_SK4FGA_meanC, 1},
     {"_SK4FGA_helloworld", (DL_FUNC) &_SK4FGA_helloworld, 0},
     {"_SK4FGA_sumofsquares", (DL_FUNC) &_SK4FGA_sumofsquares, 1},
+    {"_SK4FGA_find_B0_C", (DL_FUNC) &_SK4FGA_find_B0_C, 1},
+    {"_SK4FGA_vecMean", (DL_FUNC) &_SK4FGA_vecMean, 1},
+    {"_SK4FGA_whichMax", (DL_FUNC) &_SK4FGA_whichMax, 1},
     {NULL, NULL, 0}
 };
 
