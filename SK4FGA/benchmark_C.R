@@ -5,7 +5,23 @@
 library(SK4FGA)
 library(tidyverse)
 
-x = system.time(rnorm(1e7))
+# Initial test case
+
+x = generate_indices(20, .sd_multi = 5)
+x
+
+result.R = partition(x)
+plot.tree(result.R)
+
+result.C = partition_C(x)
+plot.tree(result.C)
+
+# Different Trees likely. But same groupings
+
+lapply(ungroup.partition(result.R$tree), function(p) p$ix)
+lapply(ungroup.partition(result.C$tree), function(p) p$ix)
+
+
 
 # Sample sizes
 sample_sizes = 3:12
@@ -36,7 +52,7 @@ for (i in 1:length(sample_size)) {
 
   ri = generate_indices(sample_size[i], .sd_multi = variation[i])
   t1 = system.time(partition(ri))
-  t2 = system.time(partition(ri)) # partition_C ###
+  t2 = system.time(partition_C(ri)) # partition_C ###
 
   timings_R[i] = t1[3]
   timings_C[i] = t2[3]
@@ -69,5 +85,42 @@ data.time %>%
   theme_bw() +
   labs(title = 'Time Comparison between two algoritms',
        x = 'Sample Size', y = 'Time (s)', col = 'Coding Language')
+
+
+
+
+
+
+
+
+
+
+
+## Is it consistent with the other algorithm
+# It'll be good to know if the new algorithm is consistent with the other one. We know that machine precision differs in the two languages which may cause differences in splitting.
+
+
+set.seed(123)
+x = generate_indices(20, .sd_multi = 5)
+x
+
+result.R = partition(x)
+plot.tree(result.R)
+
+result.C = partition_C(x)
+plot.tree(result.C)
+
+lapply(ungroup.partition(result.R$tree), function(p) p$ix)
+lapply(ungroup.partition(result.C$tree), function(p) p$ix)
+
+# Not the same. This is a little bit of a concern.
+
+
+
+
+
+
+
+
 
 
