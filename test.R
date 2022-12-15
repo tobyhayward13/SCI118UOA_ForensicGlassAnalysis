@@ -2,20 +2,25 @@
 
 library(SK4FGA)
 
-ri <- generate_indices(20, .sd_multi = 3)
+
+ri <- generate_indices(20, .sd_multi = 5)
 ri
 
 part = partition(ri)
+part.c = partition_C(ri)
+
+
 
 # ungroup.partition(part$tree)
 
-plot.tree(part)
+plot_tree(part)
+plot_tree(part.c)
+class(part.c)
 
+# Don't do. If do, change name of build_tree (plot_tree) to (plot.sk_partition_tree)
+# .S3method('plot', 'sk_partition_tree', plot.sk_partition_tree)
 
-
-
-
-
+# plot(part.c)
 
 # Testing
 
@@ -36,7 +41,7 @@ result = partition.multi(data.test)
 # undebug(ungroup.partition)
 # ungroup.partition(result$tree)
 
-plot.tree(result)
+plot_tree(result)
 
 
 # Test 2
@@ -47,15 +52,15 @@ data.test = split(data.test, factor(data.test$fragment))
 # debug(partition.multi)
 result = partition.multi(data.test)
 
-# undebug(plot.tree)
-plot.tree(result)
+# undebug(plot_tree)
+plot_tree(result)
 
 # Test 3
 
 set.seed(123)
 data.test = data.prep[sample(1:200, 10)]
 result = partition.multi(data.test)
-plot.tree(result)
+plot_tree(result)
 
 
 # Test 4
@@ -69,7 +74,7 @@ data.test = prepare_data(data.test)
 
 
 result = partition.multi(data.test)
-plot.tree(result)
+plot_tree(result)
 
 
 
@@ -144,7 +149,7 @@ data.test$ref.items
 
 result = partition.multi(data.test$data)
 
-plot.tree(result)
+plot_tree(result)
 
 # Now when combined with the data that was used to generate the parametric bootstrapped data.
 
@@ -157,7 +162,8 @@ data.test3[c(1, 6)]
 data.test$ref.items[1]
 
 result = partition.multi(data.test3)
-plot.tree(result)
+table(result$groups)
+plot_tree(result)
 
 # It is very sensitive. It shouldn't be discriminating between the two samples.
 
@@ -176,7 +182,14 @@ names(data.test) = paste0(names(data.test), '.', 1:2)
 data.test
 
 result = partition.multi(data.test)
-plot.tree(result)
+plot_tree(result)
 
 # It only seems to discriminate when the data matches entirely. This is not ideal.
+# This is a result of a stupid assumption that the data is ordered and hence will assume two likely equal items to be different. Observe following example.
 
+# Random sample based on before
+data.test = data.test[sample(6)]
+result = partition.multi(data.test)
+plot_tree(result)
+
+# Notice now that because the two datasets are not next to eachother in the list, they are discriminated apart and hence considered different.

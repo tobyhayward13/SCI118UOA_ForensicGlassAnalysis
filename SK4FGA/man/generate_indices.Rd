@@ -22,7 +22,7 @@ Returns a vector of randomly generated refractive indices from a expected normal
 test_ris = generate_indices(8)
 partition(test_ris)
 
-test_ris_varied = generate_indices(.sd_multi = 5) # More variance will give a higher chance of splitting in the algorithm.
+test_ris_varied = generate_indices(.sd_multi = 5)
 partition(test_ris)
 
 }

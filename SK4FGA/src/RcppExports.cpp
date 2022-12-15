@@ -10,38 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// meanC
-double meanC(NumericVector x);
-RcppExport SEXP _SK4FGA_meanC(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(meanC(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// helloworld
-int helloworld();
-RcppExport SEXP _SK4FGA_helloworld() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(helloworld());
-    return rcpp_result_gen;
-END_RCPP
-}
-// sumofsquares
-double sumofsquares(NumericVector x);
-RcppExport SEXP _SK4FGA_sumofsquares(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(sumofsquares(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // find_B0_C
 List find_B0_C(std::vector<double> arr);
 RcppExport SEXP _SK4FGA_find_B0_C(SEXP arrSEXP) {
@@ -53,36 +21,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// vecMean
-double vecMean(std::vector<double> vec);
-RcppExport SEXP _SK4FGA_vecMean(SEXP vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double> >::type vec(vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(vecMean(vec));
-    return rcpp_result_gen;
-END_RCPP
-}
-// whichMax
-int whichMax(std::vector<double> vec);
-RcppExport SEXP _SK4FGA_whichMax(SEXP vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double> >::type vec(vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(whichMax(vec));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SK4FGA_meanC", (DL_FUNC) &_SK4FGA_meanC, 1},
-    {"_SK4FGA_helloworld", (DL_FUNC) &_SK4FGA_helloworld, 0},
-    {"_SK4FGA_sumofsquares", (DL_FUNC) &_SK4FGA_sumofsquares, 1},
     {"_SK4FGA_find_B0_C", (DL_FUNC) &_SK4FGA_find_B0_C, 1},
-    {"_SK4FGA_vecMean", (DL_FUNC) &_SK4FGA_vecMean, 1},
-    {"_SK4FGA_whichMax", (DL_FUNC) &_SK4FGA_whichMax, 1},
     {NULL, NULL, 0}
 };
 

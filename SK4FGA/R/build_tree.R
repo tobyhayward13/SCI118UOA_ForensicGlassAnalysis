@@ -11,9 +11,9 @@
 #'
 #' data = generate_indices()
 #' part = partition(data)
-#' plot.tree(part)
+#' plot_tree(part)
 #'
-plot.tree <- function(part){
+plot_tree <- function(part){
   # Calculate positions of the groups by iterating through tree object and recording the level and position with respect to parent.
 
   # Initialise x and y coordinates corresponding to the vertices of the tree.
@@ -22,7 +22,7 @@ plot.tree <- function(part){
   # Initialise x and y coordinates corresponding to the vertices of the parent node in the tree.
   x.parent = numeric()
   y.parent = numeric()
-  # Intialise contents of such a vertex
+  # Initialise contents of such a vertex
   contents = character()
 
   # Initialise a stack object

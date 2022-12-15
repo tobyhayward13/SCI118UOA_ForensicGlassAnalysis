@@ -11,7 +11,10 @@
 #' @return None
 #' @export partition
 #'
-#' @examples None
+#' @examples
+#'
+#' ris = generate_indices()
+#' partition(ris)
 #'
 #'
 partition <- function(array, alpha = 0.05, .debug = FALSE){
@@ -72,12 +75,13 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
   for (i in 1:length(untreed.groups)){
     for (j in untreed.groups[[i]]$ix) groups[j] = i
   }
-  return(
-    list(
+
+  part.tree = list(
       groups = groups,
-      tree = result
-    )
-  )
+      tree = result)
+  class(part.tree) = 'sk_partition_tree'
+
+  return(part.tree)
 }
 
 
@@ -86,7 +90,7 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
 #'
 #' Ungroups the tree object in the output from partition()
 #'
-#' @param tree
+#' @param tree tree object returned from partition()
 #'
 #' @return A list object containing the indices of the
 #' @export groups

@@ -1,12 +1,11 @@
 Package: SK4FGA
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Scott-Knott for Forensic Glass Analysis
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Toby Hayward, James Curran
+Maintainer: Toby Hayward <tobyhayward13@gmail.com>
+Description: Functions for use when comparing features of glass fragment samples and determining their relation. The package exercises the Scott-Knott algorithm for the grouping problem and incorporate modifications for small sample glass fragment analysis. Build currently supports both univariate using the refractive index (ri), and multivariate analysis. 
+License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 

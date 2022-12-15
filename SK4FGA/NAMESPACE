@@ -1,3 +1,5 @@
 useDynLib(SK4FGA)
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
+importFrom("graphics", "plot.new", "plot.window", "points", "segments", "text", "title")
+importFrom("stats", "cov", "pf", "quantile", "rnorm")

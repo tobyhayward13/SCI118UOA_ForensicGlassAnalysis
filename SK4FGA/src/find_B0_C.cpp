@@ -3,9 +3,19 @@
 
 using namespace Rcpp;
 
+
+// Helper functions
 double vecMean(std::vector<double> vec);
 int whichMax(std::vector<double> vec);
 
+
+//' Calculates the B0 value for a given numeric vector of values; assuming they're appropriate values corresponding to glass fragment refractive indices.
+//'
+//' @param arr vector of refractive indices.
+//'
+//' @return A numeric corresponding to the maximum between-sum-of-squares estimate from the sample.
+//' @export numeric
+//'
 // [[Rcpp::export]]
 List find_B0_C(std::vector<double> arr) {
   int j = arr.size();
@@ -31,7 +41,12 @@ List find_B0_C(std::vector<double> arr) {
                       _["i"] = B_0i+1); // Add 1 for the sake of R
 }
 
-//[[Rcpp::export]]
+
+
+
+
+// Helper functions
+
 double vecMean(std::vector<double> vec) {
   double added_val = 0.0;
   for (unsigned int i = 0; i < vec.size(); i++) {
@@ -40,7 +55,6 @@ double vecMean(std::vector<double> vec) {
   return added_val / vec.size();
 }
 
-//[[Rcpp::export]]
 int whichMax(std::vector<double> vec) {
   int max_i = 0;
   for (unsigned int i = 0; i < vec.size(); i++) {

@@ -11,7 +11,10 @@
 #' @return None
 #' @export partition
 #'
-#' @examples None
+#' @examples
+#'
+#' ris = generate_indices()
+#' partition(ris)
 #'
 #'
 partition_C <- function(array, alpha = 0.05, .debug = FALSE){
@@ -72,50 +75,12 @@ partition_C <- function(array, alpha = 0.05, .debug = FALSE){
   for (i in 1:length(untreed.groups)){
     for (j in untreed.groups[[i]]$ix) groups[j] = i
   }
-  return(
-    list(
-      groups = groups,
-      tree = result
-    )
-  )
-}
 
+  part.tree = list(
+    groups = groups,
+    tree = result)
+  class(part.tree) = 'sk_partition_tree'
 
-
-#' ungroup.partition
-#'
-#' Ungroups the tree object in the output from partition()
-#'
-#' @param tree
-#'
-#' @return A list object containing the indices of the
-#' @export groups
-#'
-ungroup.partition <- function(tree){
-
-  groups = vector('list')
-
-  # Initialise a stack
-  a.stack = vector('list')
-  # Append initial partition to stack
-  a.stack = append(a.stack, list(tree))
-
-  while (length(a.stack) > 0) {
-    # Pop top of stack
-    current = a.stack[[1]]
-    a.stack = a.stack[-1]
-
-    if (has.children(current)){
-      a.stack = append(a.stack, list(current[[1]]))
-      a.stack = append(a.stack, list(current[[2]]))
-      next
-    }
-
-    # Otherwise append the group to the groups list.
-    groups = append(groups, list(current))
-
-  }
-
-  groups
+  return(part.tree)
 }
 

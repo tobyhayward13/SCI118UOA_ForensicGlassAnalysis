@@ -22,7 +22,9 @@ Partitions the array of assumed glass fragment refractive indices into statistic
 significant groups.
 }
 \examples{
-None
+
+ris = generate_indices()
+partition(ris)
 
 
 }
