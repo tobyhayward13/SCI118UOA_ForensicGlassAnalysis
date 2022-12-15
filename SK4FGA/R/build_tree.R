@@ -1,20 +1,23 @@
-#' Scott-Knott for Forensic Data Analysis (Modification 2).
+#' Plot method for objects of type "sk_partition_tree".
 #'
-#' SKM2. This function takes a vector of glass fragment refractive indices and returns a grouping of the values as outlined by the algorithm.
 #'
-#' @param part output from the function "partition()"
+#' @param x Output from the function "partition()"
+#' @param ... Extra details for the plot. Unused.
 #'
 #' @return Plot of the decision tree that is formed by the Revised Scott-Knott algorithm, designed by Prof. James Curran.
-#' @export partition.treeplot
+#' @export plot.sk_partition_tree
 #'
 #' @examples
 #'
 #' data = generate_indices()
 #' part = partition(data)
-#' plot_tree(part)
+#' plot.sk_partition_tree(part)
+#' plot(part)
 #'
-plot_tree <- function(part){
+plot.sk_partition_tree <- function(x, ...){
   # Calculate positions of the groups by iterating through tree object and recording the level and position with respect to parent.
+
+  part = x
 
   # Initialise x and y coordinates corresponding to the vertices of the tree.
   x = numeric()

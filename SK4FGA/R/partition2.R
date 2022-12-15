@@ -62,12 +62,13 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
       groups[j] = i
     }
   }
-  return(
-    list(
-      groups = groups,
-      tree = result
-    )
-  )
+
+  part.tree = list(
+    groups = groups,
+    tree = result)
+  class(part.tree) = 'sk_partition_tree'
+
+  return(part.tree)
 }
 
 
