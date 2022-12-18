@@ -11,19 +11,93 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // find_B0_C
-List find_B0_C(std::vector<double> arr);
+List find_B0_C(NumericVector arr);
 RcppExport SEXP _SK4FGA_find_B0_C(SEXP arrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double> >::type arr(arrSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type arr(arrSEXP);
     rcpp_result_gen = Rcpp::wrap(find_B0_C(arr));
+    return rcpp_result_gen;
+END_RCPP
+}
+// meanC
+double meanC(NumericVector x);
+RcppExport SEXP _SK4FGA_meanC(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(meanC(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sum_of_squaresC
+double sum_of_squaresC(NumericVector x);
+RcppExport SEXP _SK4FGA_sum_of_squaresC(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(sum_of_squaresC(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// varC
+double varC(NumericVector x);
+RcppExport SEXP _SK4FGA_varC(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(varC(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// bgss
+double bgss(NumericVector y1, NumericVector y2);
+RcppExport SEXP _SK4FGA_bgss(SEXP y1SEXP, SEXP y2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y1(y1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y2(y2SEXP);
+    rcpp_result_gen = Rcpp::wrap(bgss(y1, y2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// wgss
+double wgss(NumericVector y1, NumericVector y2);
+RcppExport SEXP _SK4FGA_wgss(SEXP y1SEXP, SEXP y2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y1(y1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y2(y2SEXP);
+    rcpp_result_gen = Rcpp::wrap(wgss(y1, y2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// whichmacs
+int whichmacs(NumericVector x);
+RcppExport SEXP _SK4FGA_whichmacs(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(whichmacs(x));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_SK4FGA_find_B0_C", (DL_FUNC) &_SK4FGA_find_B0_C, 1},
+    {"_SK4FGA_meanC", (DL_FUNC) &_SK4FGA_meanC, 1},
+    {"_SK4FGA_sum_of_squaresC", (DL_FUNC) &_SK4FGA_sum_of_squaresC, 1},
+    {"_SK4FGA_varC", (DL_FUNC) &_SK4FGA_varC, 1},
+    {"_SK4FGA_bgss", (DL_FUNC) &_SK4FGA_bgss, 2},
+    {"_SK4FGA_wgss", (DL_FUNC) &_SK4FGA_wgss, 2},
+    {"_SK4FGA_whichmacs", (DL_FUNC) &_SK4FGA_whichmacs, 1},
     {NULL, NULL, 0}
 };
 
