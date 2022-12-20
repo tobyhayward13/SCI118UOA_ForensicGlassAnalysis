@@ -31,7 +31,7 @@ List find_B0_C(NumericVector arr) {
   }
 
 
-  int B_0i = which_max(B);
+  int B_0i = which_max(B); // Uses Rcpp::which_max() sugar function.
   double B_0 = B.at(B_0i);
 
   return List::create(_["x"] = B_0,

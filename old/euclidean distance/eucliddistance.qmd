@@ -1,0 +1,348 @@
+---
+title: "Euclidean Distance Testing (SK4FGA)"
+format: html
+editor: visual
+---
+
+```{r setup, include = F}
+library(SK4FGA)
+library(tidyverse)
+data(glass)
+```
+
+## Data in
+
+```{r data}
+data = glass %>% prepare_data()
+
+data[sample(length(data), 1)]
+```
+
+The data is in the form of a list with each element corresponding to an item in the dataset; including all of the relevant fragment measurements.
+
+## Euclidean Distance
+
+To test the effectiveness of ordering the data by euclidean distance to the mean, I'll first generate new data from a random sample of *5* items from the dataset using the means and standard deviations from each fragment in the sample.
+
+```{r example 1}
+get_fragment_dist <- function(d){
+  d.split = split(d, factor(d$fragment))
+  get_info <- function(e){
+    means = apply(e[,-(1:2)], 2, mean)
+    sds = apply(e[,-(1:2)], 2, sd)
+    list(means, sds)
+  }
+  append(lapply(d.split, get_info), list(item = d$item[1]))
+}
+
+data.fragment_normal = do.call(rbind, data) %>%
+  group_by(item) %>%
+  group_split() %>%
+  map(get_fragment_dist)
+
+
+generate_data <- function(n = 10){
+  # Create the sample
+  sam = sample(1:length(data.fragment_normal), n)
+  data.sam_normal = data.fragment_normal[sam]
+  data.test = vector('list', n)
+
+
+
+  for (i in 1:n){
+    current = data.fragment_normal[[sam[i]]]
+
+    test.dat = c(
+      rnorm(3 * 7, current$f1[[1]], current$f1[[2]]),
+      rnorm(3 * 7, current$f2[[1]], current$f2[[2]]),
+      rnorm(3 * 7, current$f3[[1]], current$f3[[2]]),
+      rnorm(3 * 7, current$f4[[1]], current$f4[[2]])
+    )
+
+    test.dat = matrix(test.dat, nrow = 12, byrow = T)
+
+    colnames(test.dat) = names(current$f1[[1]])
+    
+    # For consistency, I will round the numerics in the test data to 4 d.p; just like the original dataset.
+    data.test[[i]] = cbind(item = paste0('t', i), fragment = paste0('f', rep(1:4, each = 3)), as.data.frame(round(test.dat, 4)))
+  }
+
+  names(data.test) = paste0('t', 1:n)
+
+  list(data = data.test, ref.items = sapply(data.sam_normal, function(p) p$item))
+}
+
+
+```
+
+```{r example 1b}
+random_data = generate_data(5)
+random_data$data
+random_data$ref.items
+```
+
+Note how similar the test items are to the reference items.
+
+```{r example 1c}
+random_data$data[1]
+data[random_data$ref.items[1]]
+```
+
+The idea is that these two items, in spite of being numerically different, should be statistically similar enough to be considered derivative of the same item. Of course there is always the chance that randomness will result in the items being statistically difference, and I expect this to happen about $100\alpha$% of the time.\
+\
+The next step in the process is to join the two datasets together; so that we have a full data set of size 10 with 5 randomly generated samples and the 5 reference items used for generating those samples.
+
+```{r example 2}
+ref_data = data[random_data$ref.items]
+(test1 = append(random_data$data, ref_data))
+
+```
+
+I'll then pass two different test lists to the `partition` function:
+
+1.  test1 \~ A shuffled version of `test1`.
+2.  test2 \~ An ordered version of `test1` based on the euclidean distance to the overall sample mean.
+
+Below is an outline of the function I am using to order the datasets by Euclidean distance.
+
+```{r euclidean distance}
+order_euclid <- function(alist){
+  # Sorts a list of split dataframes as outputted by the prepare_data() function.
+  # Calculate overall mean for each group.
+  all.data = do.call(rbind, alist)[, -(1:2)]
+  mid = apply(all.data, 2, mean)
+
+  # Average values for each feature within those in list
+  points = lapply(alist, function(p) apply(p[, -(1:2)], 2, mean))
+
+  # Calculate distances
+  points.d = sapply(points, function(v) sum((v - mid)^2))
+
+  # Return data in order of smallest euclidean distance to largest.
+  indices = sort(points.d, index.return = T)$ix
+  alist[indices]
+}
+
+```
+
+```{r example 3}
+test1 = test1[sample(length(test1))]
+test2 = order_euclid(test1)
+
+test2
+```
+
+Naturally, what seems to be happening is that the reference items are being put next to their respective randomly generated items in the new list.\
+Then by running `partition.multi` on each test set, we can see a final partition and judge whether the result is one we expect; with randomly generated items grouped with their respective reference items.
+
+```{r example 4}
+part1 = partition.multi(test1)
+part2 = partition.multi(test2)
+```
+
+### Unordered result.
+
+```{r example 4a, fig.width=15, fig.height=8}
+plot(part1)
+```
+
+### Ordered result.
+
+```{r example 4b, fig.width=15, fig.height=8}
+plot(part2)
+```
+
+The test we would like to do is to see if the reference items are grouped with their randomly generated items. If they are, **I count that as a success for the algorithm.** Otherwise, the algorithm failed to do it's job.\
+To test for this, we will extract the groups for each item, and see if the groupings contain both the test item and their respective reference item. If any one of them fails to be in the same group as their reference item, then it is a fail.
+
+```{r example 5}
+random_data$ref.items
+
+for (i in 1:5) {
+  ti.group = part2$groups[which(names(test2) == paste0('t', i))]
+  print(paste('random_item =', paste0('t', i), 'with group:', ti.group))
+  
+  ref.item = random_data$ref.items[i]
+  ref.item.group = part2$groups[which(names(test2) == ref.item)]
+  print(paste('ref_item =', ref.item, 'with group:', ref.item.group))
+  
+  print(paste('groups match:', ref.item.group == ti.group))
+  
+  print('')
+}
+
+```
+
+If and only if all of these groups match, do we record it as a **100%** success. It is also good to perhaps look at the success rate of those which failed to get a 100% success rate. We're also interested in how well a random shuffle compares in success rate for each example.
+
+## Actual testing.
+
+```{r testing, cache=TRUE}
+# Number of simulations
+n = 1000
+
+# Sample size of those ripped from dataset.
+sample.size = 5
+
+success_rate.unordered = numeric(n)
+success_rate.ordered = numeric(n)
+
+# Recording the length of time to simulate.
+start.time = Sys.time()
+
+for (i in 1:n){
+  # Progress
+  if (i %% (n %/% 10) == 0) print(paste0(i / (n %/% 10) * 10, '% complete (', round(difftime(Sys.time(), start.time, units = 'secs')), ' seconds elapsed)'))
+
+
+  random_data = generate_data(sample.size)
+  ref_data = data[random_data$ref.items]
+  test1 = append(random_data$data, ref_data)
+  
+  test1 = test1[sample(length(test1))]
+  test2 = order_euclid(test1)
+  
+  part1 = partition.multi(test1)  # Unordered test
+  part2 = partition.multi(test2)  # Ordered test
+  
+  match1 = logical(sample.size)
+  match2 = logical(sample.size)
+  
+  for (j in 1:sample.size) {
+    # Test 1
+    tj.group = part1$groups[which(names(test1) == paste0('t', j))]
+    ref.item = random_data$ref.items[j]
+    ref.item.group = part1$groups[which(names(test1) == ref.item)]
+    match1[j] = tj.group == ref.item.group
+    
+    # Test 2
+    tj.group = part2$groups[which(names(test2) == paste0('t', j))]
+    ref.item = random_data$ref.items[j]
+    ref.item.group = part2$groups[which(names(test2) == ref.item)]
+    match2[j] = tj.group == ref.item.group
+    
+  }
+  
+  success_rate.unordered[i] = sum(match1) / sample.size
+  success_rate.ordered[i] = sum(match2) / sample.size
+  
+  
+}
+
+end.time = Sys.time()
+(duration = end.time - start.time)
+
+```
+
+## Results
+
+```{r results}
+results = tibble(
+  success_rate.unordered,
+  success_rate.ordered
+)
+
+# Percentage of total success
+results %>% 
+  summarise(unordered.total_success = sum(success_rate.unordered == 1) / n, ordered.total_success = sum(success_rate.ordered == 1) / n)
+
+# Visualisation of Success
+results %>% 
+  pivot_longer(cols = everything(), names_to = 'ordered/unordered', values_to = 'successrate') %>% 
+  mutate(`ordered/unordered` = `ordered/unordered` %>% str_extract('[^e.]{0,2}ordered')) %>% 
+  ggplot(aes(x = successrate, fill = `ordered/unordered`)) +
+  geom_histogram(bins = sample.size, col = 'black') +
+  facet_wrap(~`ordered/unordered`, ncol = 1) +
+  scale_x_continuous(breaks = seq(0, 1, 1/sample.size)) +
+  theme_bw() +
+  labs(title = 'Success Rate', x = 'Success Rate', y = 'Count') +
+  theme(legend.position = 'none')
+
+```
+
+I noticed that with larger data sets, the total success goes down.
+
+```{r testing 2, cache=TRUE}
+# Number of simulations
+n = 1000
+
+# Sample size of those ripped from dataset.
+sample.size = 10
+
+success_rate.unordered = numeric(n)
+success_rate.ordered = numeric(n)
+
+# Recording the length of time to simulate.
+start.time = Sys.time()
+
+set.seed(15)
+
+for (i in 1:n){
+  # Progress
+  if (i %% (n %/% 10) == 0) print(paste0(i / (n %/% 10) * 10, '% complete (', round(difftime(Sys.time(), start.time, units = 'secs')), ' seconds elapsed)'))
+
+
+  random_data = generate_data(sample.size)
+  ref_data = data[random_data$ref.items]
+  test1 = append(random_data$data, ref_data)
+  
+  test1 = test1[sample(length(test1))]
+  test2 = order_euclid(test1)
+  
+  part1 = partition.multi(test1)  # Unordered test
+  part2 = partition.multi(test2)  # Ordered test
+  
+  match1 = logical(sample.size)
+  match2 = logical(sample.size)
+  
+  for (j in 1:sample.size) {
+    # Test 1
+    tj.group = part1$groups[which(names(test1) == paste0('t', j))]
+    ref.item = random_data$ref.items[j]
+    ref.item.group = part1$groups[which(names(test1) == ref.item)]
+    match1[j] = tj.group == ref.item.group
+    
+    # Test 2
+    tj.group = part2$groups[which(names(test2) == paste0('t', j))]
+    ref.item = random_data$ref.items[j]
+    ref.item.group = part2$groups[which(names(test2) == ref.item)]
+    match2[j] = tj.group == ref.item.group
+    
+  }
+  
+  success_rate.unordered[i] = sum(match1) / sample.size
+  success_rate.ordered[i] = sum(match2) / sample.size
+  
+  
+}
+
+end.time = Sys.time()
+(duration = end.time - start.time)
+
+```
+
+## Results
+
+```{r results 2}
+results = tibble(
+  success_rate.unordered,
+  success_rate.ordered
+)
+
+# Percentage of total success
+results %>% 
+  summarise(unordered.total_success = sum(success_rate.unordered == 1) / n, ordered.total_success = sum(success_rate.ordered == 1) / n)
+
+# Visualisation of Success
+results %>% 
+  pivot_longer(cols = everything(), names_to = 'ordered/unordered', values_to = 'successrate') %>% 
+  mutate(`ordered/unordered` = `ordered/unordered` %>% str_extract('[^e.]{0,2}ordered')) %>% 
+  ggplot(aes(x = successrate, fill = `ordered/unordered`)) +
+  geom_histogram(bins = sample.size, col = 'black') + 
+  facet_wrap(~`ordered/unordered`, ncol = 1) +
+  scale_x_continuous(breaks = seq(0, 1, 1/sample.size)) +
+  theme_bw() +
+  labs(title = 'Success Rate', x = 'Success Rate', y = 'Count') +
+  theme(legend.position = 'none')
+
+```
