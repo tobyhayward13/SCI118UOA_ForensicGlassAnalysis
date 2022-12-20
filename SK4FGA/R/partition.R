@@ -40,7 +40,7 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
     lambda = pi/(2*(pi-2)) * B0$x/S2
 
     # Calculate threshold
-    threshold = calculate_lambda_threshold(k = length(array), alpha = alpha)
+    threshold = calculate_lambda_threshold(k = length(array$x), alpha = alpha)
 
     # If lambda* in lambda* distribution at 100(1-alpha) percentile, split.
     if (lambda > threshold) { # Typo within thesis (> not <).
