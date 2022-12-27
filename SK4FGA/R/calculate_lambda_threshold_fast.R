@@ -11,7 +11,7 @@
 #'
 calculate_lambda_threshold_fast <- function(k, alpha) {
   if (k > 20) return (calculate_lambda_threshold_C(k, alpha))
-  Y = lambda[[k]]
+  Y = lambdas[,k-1]
   quantile(Y, 1-alpha)
 }
 
