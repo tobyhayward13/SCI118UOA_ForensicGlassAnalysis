@@ -17,7 +17,7 @@
 #' partition(ris)
 #'
 #'
-partition_C <- function(array, alpha = 0.05, .debug = FALSE){
+partition_fast <- function(array, alpha = 0.05, .debug = FALSE){
   # Partitions the array in to clusters by the SKM2 algorithm.
   # index ~ an array of refractive indices
   # alpha ~ threshold for split
@@ -40,7 +40,7 @@ partition_C <- function(array, alpha = 0.05, .debug = FALSE){
     lambda = pi/(2*(pi-2)) * B0$x/S2
 
     # Calculate threshold
-    threshold = calculate_lambda_threshold_C(k = length(array$x), alpha = alpha)
+    threshold = calculate_lambda_threshold_fast(k = length(array$x), alpha = alpha)
 
     # If lambda* in lambda* distribution at 100(1-alpha) percentile, split.
     if (lambda > threshold) { # Typo within thesis (> not <).
