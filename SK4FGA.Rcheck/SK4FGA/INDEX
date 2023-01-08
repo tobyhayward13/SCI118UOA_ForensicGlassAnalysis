@@ -1,0 +1,35 @@
+calculate_lambda_threshold
+                        Empirically calculate a significance threshold
+                        for Lambda.
+calculate_lambda_threshold_C
+                        Empirically calculate a significance threshold
+                        for Lambda.
+calculate_lambda_threshold_fast
+                        Empirically calculate a significance threshold
+                        for Lambda.
+find_B0                 Calculate B0 for a given array of Refractive
+                        Indices.
+find_B0_C               Calculates the B0 value for a given numeric
+                        vector of values; assuming they're appropriate
+                        values corresponding to glass fragment
+                        refractive indices.
+find_T0                 Calculate T0 for a given list of glass
+                        fragments and features.
+find_T2                 Calculate Hotelling's T^2 Statistic for two
+                        independant samples.
+generate_indices        Generate a test set of Glass-Fragment
+                        Refractive indices.
+glass                   Glass Fragment Elemental Composition Data
+has.children            has.children
+partition               Create Partitions of an RI array.
+partition.multi         Create Partitions of a multivariate array of
+                        objects.
+partition_C             Create Partitions of an RI array.
+partition_fast          Create Partitions of an RI array.
+plot.sk_partition_tree
+                        Plot method for objects of type
+                        "sk_partition_tree".
+prepare_data            Prepare a data file that is in standard form.
+ptsquared               Calculate the Probability for a given T^2
+                        statistic.
+ungroup.partition       ungroup.partition

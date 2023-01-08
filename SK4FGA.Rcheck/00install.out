@@ -1,0 +1,18 @@
+* installing *source* package 'SK4FGA' ...
+** using staged installation
+** libs
+g++ -std=gnu++11  -I"C:/PROGRA~1/R/R-42~1.2/include" -DNDEBUG  -I'C:/Users/tobiw/AppData/Local/R/win-library/4.2/Rcpp/include'   -I"C:/RBuildTools/4.2/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++11  -I"C:/PROGRA~1/R/R-42~1.2/include" -DNDEBUG  -I'C:/Users/tobiw/AppData/Local/R/win-library/4.2/Rcpp/include'   -I"C:/RBuildTools/4.2/x86_64-w64-mingw32.static.posix/include"     -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign  -c find_B0_C.cpp -o find_B0_C.o
+g++ -std=gnu++11 -shared -s -static-libgcc -o SK4FGA.dll tmp.def RcppExports.o find_B0_C.o -LC:/RBuildTools/4.2/x86_64-w64-mingw32.static.posix/lib/x64 -LC:/RBuildTools/4.2/x86_64-w64-mingw32.static.posix/lib -LC:/PROGRA~1/R/R-42~1.2/bin/x64 -lR
+installing to C:/Users/tobiw/Documents/R/SCI118UOA_ForensicGlassAnalysis/SK4FGA.Rcheck/00LOCK-SK4FGA/00new/SK4FGA/libs/x64
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (SK4FGA)
