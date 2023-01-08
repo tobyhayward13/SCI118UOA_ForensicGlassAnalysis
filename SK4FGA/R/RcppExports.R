@@ -12,27 +12,3 @@ find_B0_C <- function(arr) {
     .Call('_SK4FGA_find_B0_C', PACKAGE = 'SK4FGA', arr)
 }
 
-meanC <- function(x) {
-    .Call('_SK4FGA_meanC', PACKAGE = 'SK4FGA', x)
-}
-
-sum_of_squaresC <- function(x) {
-    .Call('_SK4FGA_sum_of_squaresC', PACKAGE = 'SK4FGA', x)
-}
-
-varC <- function(x) {
-    .Call('_SK4FGA_varC', PACKAGE = 'SK4FGA', x)
-}
-
-bgss <- function(y1, y2) {
-    .Call('_SK4FGA_bgss', PACKAGE = 'SK4FGA', y1, y2)
-}
-
-wgss <- function(y1, y2) {
-    .Call('_SK4FGA_wgss', PACKAGE = 'SK4FGA', y1, y2)
-}
-
-whichmacs <- function(x) {
-    .Call('_SK4FGA_whichmacs', PACKAGE = 'SK4FGA', x)
-}
-
