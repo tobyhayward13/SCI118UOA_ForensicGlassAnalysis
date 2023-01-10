@@ -1,0 +1,6 @@
+useDynLib(SK4FGA)
+S3method(plot,sk_partition_tree)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
+importFrom("graphics", "plot.new", "plot.window", "points", "segments", "text", "title")
+importFrom("stats", "cov", "pf", "quantile", "rnorm", "approx")
