@@ -24,4 +24,9 @@ part = partition(data)
 plot.sk_partition_tree(part)
 plot(part)
 
+data(glass)
+data.multi = prepare_data(glass, 1)[1:3]
+part = partition.multi(data.multi)
+plot(part)
+
 }

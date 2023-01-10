@@ -4,10 +4,12 @@
 \alias{prepare_data}
 \title{Prepare a data file that is in standard form.}
 \usage{
-prepare_data(data)
+prepare_data(data, label = NA)
 }
 \arguments{
 \item{data}{Inputted data.frame.}
+
+\item{label}{Column corresponding to the label wished to be grouped by.}
 }
 \value{
 A list of split data.

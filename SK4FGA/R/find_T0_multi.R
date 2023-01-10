@@ -8,7 +8,7 @@
 #' @param j Ending element (default = length(array))
 #'
 #' @return A numeric corresponding to the maximum between-sum-of-squares estimate from the sample.
-#' @export numeric
+#' @export find_T0
 #'
 find_T0 <- function(data, i = 1, j = length(data)){
   # This function takes an array and an interval and determines the B_0 value for that interval
@@ -23,8 +23,8 @@ find_T0 <- function(data, i = 1, j = length(data)){
     g1 = data[1:index]
     g2 = data[(index+1):k]
 
-    d1 = do.call(rbind, g1)[,-(1:2)]
-    d2 = do.call(rbind, g2)[,-(1:2)]
+    d1 = do.call(rbind, g1)
+    d2 = do.call(rbind, g2)
 
     test.T[index] = find_T2(d1, d2)
   }

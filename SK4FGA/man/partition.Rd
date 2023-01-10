@@ -15,7 +15,7 @@ array further.}
 \item{.debug}{Runs debugging.}
 }
 \value{
-None
+sk_partition_tree
 }
 \description{
 Partitions the array of assumed glass fragment refractive indices into statistically

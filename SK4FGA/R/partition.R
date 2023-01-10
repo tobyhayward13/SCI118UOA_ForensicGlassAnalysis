@@ -8,7 +8,7 @@
 #' array further.
 #' @param .debug Runs debugging.
 #'
-#' @return None
+#' @return sk_partition_tree
 #' @export partition
 #'
 #' @examples
@@ -55,7 +55,8 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
     return(array)
   }
 
-
+  # Check for bad values and debugging
+  if (alpha >= 1 | alpha <= 0) stop('alpha is not in (0,1)!')
   if (.debug) debug(recursive_sk)
 
   # Main Call
@@ -77,8 +78,8 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
   }
 
   part.tree = list(
-      groups = groups,
-      tree = result)
+    groups = groups,
+    tree = result)
   class(part.tree) = 'sk_partition_tree'
 
   return(part.tree)
@@ -93,7 +94,7 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
 #' @param tree tree object returned from partition()
 #'
 #' @return A list object containing the indices of the
-#' @export groups
+#' @export ungroup.partition
 #'
 ungroup.partition <- function(tree){
 

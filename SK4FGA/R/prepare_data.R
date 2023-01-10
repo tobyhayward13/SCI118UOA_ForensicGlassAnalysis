@@ -3,11 +3,23 @@
 #' Expects that the first two columns correspond to the item and fragment information, and that the remaining columns are the features.
 #'
 #' @param data Inputted data.frame.
+#' @param label Column corresponding to the label wished to be grouped by.
 #'
 #' @return A list of split data.
-#' @export list
+#' @export prepare_data
 #'
-prepare_data <- function(data){
-  items = factor(data[,1])
-  split(data, items)
+prepare_data <- function(data, label = NA){
+  if (length(label) < 2) if (is.na(label)) {
+    warning('No column assigned to be the label. First column is used.')
+    label = 1L
+  }
+  # Convert to numeric if character is given (just easier)
+  if (typeof(label) == 'character') label = which(colnames(data) %in% label)
+  if (length(label) > 1) {
+    items = apply(data[,label], 1, paste, collapse = '.')
+    data = cbind(items, data[,-label])
+  }
+  else items = factor(data[,label])
+
+  split(data[,which(sapply(data, class) == 'numeric')], items)
 }

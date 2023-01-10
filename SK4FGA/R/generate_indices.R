@@ -6,7 +6,7 @@
 #' @param .sd_multi Scale factor of the standard deviation. Greater values imply more variance in the random sample.
 #'
 #' @return A vector of randomly generated RIs.
-#' @export numeric
+#' @export generate_indices
 #'
 #' @examples
 #'

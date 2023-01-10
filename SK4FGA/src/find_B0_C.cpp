@@ -12,10 +12,10 @@ double vecMean(NumericVector vec);
 //' @param arr vector of refractive indices.
 //'
 //' @return A numeric corresponding to the maximum between-sum-of-squares estimate from the sample.
-//' @export numeric
+//' @export find_B0
 //'
 // [[Rcpp::export]]
-List find_B0_C(NumericVector arr) {
+List find_B0(NumericVector arr) {
   int j = arr.size();
   int k = j;
   NumericVector B (k-1);

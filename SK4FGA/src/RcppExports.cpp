@@ -10,20 +10,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// find_B0_C
-List find_B0_C(NumericVector arr);
-RcppExport SEXP _SK4FGA_find_B0_C(SEXP arrSEXP) {
+// find_B0
+List find_B0(NumericVector arr);
+RcppExport SEXP _SK4FGA_find_B0(SEXP arrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type arr(arrSEXP);
-    rcpp_result_gen = Rcpp::wrap(find_B0_C(arr));
+    rcpp_result_gen = Rcpp::wrap(find_B0(arr));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SK4FGA_find_B0_C", (DL_FUNC) &_SK4FGA_find_B0_C, 1},
+    {"_SK4FGA_find_B0", (DL_FUNC) &_SK4FGA_find_B0, 1},
     {NULL, NULL, 0}
 };
 

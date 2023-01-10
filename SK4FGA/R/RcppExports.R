@@ -6,9 +6,9 @@
 #' @param arr vector of refractive indices.
 #'
 #' @return A numeric corresponding to the maximum between-sum-of-squares estimate from the sample.
-#' @export numeric
+#' @export find_B0
 #'
-find_B0_C <- function(arr) {
-    .Call('_SK4FGA_find_B0_C', PACKAGE = 'SK4FGA', arr)
+find_B0 <- function(arr) {
+    .Call('_SK4FGA_find_B0', PACKAGE = 'SK4FGA', arr)
 }
 

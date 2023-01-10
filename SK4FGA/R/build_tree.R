@@ -14,6 +14,11 @@
 #' plot.sk_partition_tree(part)
 #' plot(part)
 #'
+#' data(glass)
+#' data.multi = prepare_data(glass, 1)[1:3]
+#' part = partition.multi(data.multi)
+#' plot(part)
+#'
 plot.sk_partition_tree <- function(x, ...){
   # Calculate positions of the groups by iterating through tree object and recording the level and position with respect to parent.
 

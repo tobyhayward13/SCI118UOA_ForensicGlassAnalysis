@@ -4,7 +4,7 @@
 #' @param d2 matrix or data.frame type object containing the multivariate data for the second sample.
 #'
 #' @return T^2 value for the two objects.
-#' @export numeric
+#' @export find_T2
 #'
 find_T2 <- function(d1, d2){
   # This is a function which takes two data.frames as input and returns the T^2 statistic.
@@ -48,7 +48,7 @@ find_T2 <- function(d1, d2){
 #' @param p Number of parameters.
 #'
 #' @return A probability.
-#' @export numeric
+#' @export ptsquared
 #'
 ptsquared <- function(t, n1, n2, p){
   f = (n1 + n2 - p - 1) / (p * (n1 + n2 - 2)) * t
