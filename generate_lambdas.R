@@ -24,7 +24,7 @@ for (test.k in k) {
   betas = numeric(n)
   for (i in 1:n) {
     test_set = sort(generate_indices(test.k))
-    betas[i] = find_B0_C(test_set)$x
+    betas[i] = find_B0(test_set)$x
   }
 
   lambda[,test.k-1] = pi/(2*(pi-2)) * betas/S2
