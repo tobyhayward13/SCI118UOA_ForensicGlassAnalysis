@@ -4,10 +4,10 @@
 \alias{plot.sk_partition_tree}
 \title{Plot method for objects of type "sk_partition_tree".}
 \usage{
-\method{plot}{sk_partition_tree}(part, ...)
+\method{plot}{sk_partition_tree}(x, ...)
 }
 \arguments{
-\item{part}{Output from the function "partition()"}
+\item{x}{Output from the function "partition()"}
 
 \item{...}{Extra details for the plot. Unused.}
 }
