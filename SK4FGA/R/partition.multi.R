@@ -53,12 +53,12 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
 
   # Main Call
   # Recursive algorithm call
-  result = recursive_part(data, alpha)
+  result = recursive_part(data$x, alpha)
 
   # Else, return array of corresponding groups
-  groups = numeric(length(data))
+  groups = numeric(length(data$x))
   # Groups index correspond to position of data in list of data.
-  item.names = names(data)
+  item.names = names(data$x)
 
   untreed.groups = ungroup.partition(result)
   for (i in 1:length(untreed.groups)){
@@ -67,6 +67,9 @@ partition.multi <- function(data, alpha = 0.05, .debug = FALSE){
       groups[j] = i
     }
   }
+
+  # Reorder the groups
+  groups[data$ix] = groups
 
   part.tree = list(
     groups = groups,
@@ -104,8 +107,8 @@ order_euclid <- function(alist){
   points.d = sapply(points, function(v) sum((v - mid)^2))
 
   # Return data in order of smallest euclidean distance to largest.
-  indices = sort(points.d, index.return = T)$ix
-  alist[indices]
+  order = sort(points.d, index.return = T)$ix
+  list(x = alist[order], ix = order)
 }
 
 
