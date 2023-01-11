@@ -81,6 +81,7 @@ partition <- function(array, alpha = 0.05, .debug = FALSE){
     groups = groups,
     tree = result)
   class(part.tree) = 'sk_partition_tree'
+  attr(part.tree, 'alg') = 'SKM2'
 
   return(part.tree)
 }

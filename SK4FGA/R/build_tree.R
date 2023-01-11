@@ -1,7 +1,7 @@
 #' Plot method for objects of type "sk_partition_tree".
 #'
 #'
-#' @param x Output from the function "partition()"
+#' @param part Output from the function "partition()"
 #' @param ... Extra details for the plot. Unused.
 #'
 #' @return Plot of the decision tree that is formed by the Revised Scott-Knott algorithm, designed by Prof. James Curran.
@@ -19,10 +19,8 @@
 #' part = partition.multi(data.multi)
 #' plot(part)
 #'
-plot.sk_partition_tree <- function(x, ...){
+plot.sk_partition_tree <- function(part, ...){
   # Calculate positions of the groups by iterating through tree object and recording the level and position with respect to parent.
-
-  part = x
 
   # Initialise x and y coordinates corresponding to the vertices of the tree.
   x = numeric()
@@ -96,7 +94,7 @@ plot.sk_partition_tree <- function(x, ...){
   segments(x, y, x.parent, y.parent)
 
   # Title
-  title('SKM2 Algorithm Splitting Tree')
+  title(paste(attr(part, 'alg'), 'Algorithm Splitting Tree'))
 
 }
 
