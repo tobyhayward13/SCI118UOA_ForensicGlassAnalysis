@@ -1,4 +1,4 @@
-#' Calculate Hotelling's T^2 Statistic for two independant samples.
+#' Calculate Hotelling's T^2 Statistic for two independent samples.
 #'
 #' @param d1 matrix or data.frame type object containing the multivariate data for the first sample.
 #' @param d2 matrix or data.frame type object containing the multivariate data for the second sample.

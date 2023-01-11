@@ -2,7 +2,7 @@
 % Please edit documentation in R/hotellings.R
 \name{find_T2}
 \alias{find_T2}
-\title{Calculate Hotelling's T^2 Statistic for two independant samples.}
+\title{Calculate Hotelling's T^2 Statistic for two independent samples.}
 \usage{
 find_T2(d1, d2)
 }
@@ -15,5 +15,5 @@ find_T2(d1, d2)
 T^2 value for the two objects.
 }
 \description{
-Calculate Hotelling's T^2 Statistic for two independant samples.
+Calculate Hotelling's T^2 Statistic for two independent samples.
 }

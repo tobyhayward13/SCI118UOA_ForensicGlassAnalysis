@@ -1,6 +1,7 @@
-#' Prepare a data file that is in standard form.
+#' prepare_data
 #'
-#' Expects that the first two columns correspond to the item and fragment information, and that the remaining columns are the features.
+#' Prepare a data file that is in standard form for partition.multi.
+#'
 #'
 #' @param data Inputted data.frame.
 #' @param label Column corresponding to the label wished to be grouped by.

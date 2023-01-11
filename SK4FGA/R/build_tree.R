@@ -1,10 +1,11 @@
-#' Plot method for objects of type "sk_partition_tree".
+#' Plot S3method for objects of type "sk_partition_tree".
 #'
+#' S3method for plotting the resulting tree formed by the partitioning algorithms in the SK4FGA package.
 #'
 #' @param x Output from the function "partition()"
 #' @param ... Extra details for the plot. Unused.
 #'
-#' @return Plot of the decision tree that is formed by the Revised Scott-Knott algorithm, designed by Prof. James Curran.
+#' @return Plot of the decision tree that is formed by the sk_partition_tree object returned by partition and partition.multi.
 #' @export plot.sk_partition_tree
 #'
 #' @examples
@@ -12,7 +13,6 @@
 #' data = generate_indices()
 #' part = partition(data)
 #' plot.sk_partition_tree(part)
-#' plot(part)
 #'
 #' data(glass)
 #' data.multi = prepare_data(glass, 1)[1:3]

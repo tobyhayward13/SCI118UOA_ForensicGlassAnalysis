@@ -7,7 +7,7 @@
 find_T0(data, i = 1, j = length(data))
 }
 \arguments{
-\item{data}{list ofglass fragment chemical (or otherwise) features.}
+\item{data}{list of glass fragment chemical (or otherwise) features.}
 
 \item{i}{Starting element (default = 1)}
 
@@ -18,5 +18,5 @@ A numeric corresponding to the maximum between-sum-of-squares estimate from the 
 }
 \description{
 Calculates the T0 value for a given list of data sets corresponding to glass fragment features
-Assuming they're appropriate values corresponding to glass fragment features, and the first two columns are not features.
+Assuming they're appropriate values corresponding to glass fragment features.
 }

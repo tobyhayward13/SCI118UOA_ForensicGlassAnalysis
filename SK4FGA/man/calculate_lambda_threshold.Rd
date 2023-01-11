@@ -4,19 +4,18 @@
 \alias{calculate_lambda_threshold}
 \title{Empirically calculate a significance threshold for Lambda.}
 \usage{
-calculate_lambda_threshold(k, alpha, .nsims = 10000)
+calculate_lambda_threshold(k, alpha)
 }
 \arguments{
 \item{k}{Number of indices.}
 
 \item{alpha}{Level of significance.}
-
-\item{.nsims}{Number of simulated arrays. More simulations implies a closer estimated distribution of the true lambda distribution.}
 }
 \value{
 An estimated 100(1-alpha)% quantile from the distribution of Lambda.
 }
 \description{
-For a given significance value, this function simulates the distribution of lambda in the context of glass-fragment refractive indices and returns the quantile at
+For a given significance value, this function uses critical values determined from simulated data formed on 1 million arrays, and returns the quantile estimated at
 that significance level.
+For values of k > 20, it assumes a chi squared distribution with k/(pi - 2) degrees of freedom.
 }

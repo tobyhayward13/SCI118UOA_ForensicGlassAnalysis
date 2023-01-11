@@ -21,3 +21,17 @@ A list of groupings and the tree formed.
 Partitions the array of assumed glass fragment chemical compositions and features into statistically
 significant groups.
 }
+\examples{
+
+test.data = prepare_data(glass, 1)[1:3]
+part = partition.multi(test.data)
+plot(part)
+
+set.seed(123)
+test.data.random = prepare_data(glass, 1)
+test.data.random = test.data.random[sample(1:length(test.data.random), 5)]
+part = partition.multi(test.data.random)
+part$groups
+
+
+}

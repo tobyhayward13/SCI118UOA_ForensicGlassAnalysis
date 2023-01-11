@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare_data.R
 \name{prepare_data}
 \alias{prepare_data}
-\title{Prepare a data file that is in standard form.}
+\title{prepare_data}
 \usage{
 prepare_data(data, label = NA)
 }
@@ -15,5 +15,5 @@ prepare_data(data, label = NA)
 A list of split data.
 }
 \description{
-Expects that the first two columns correspond to the item and fragment information, and that the remaining columns are the features.
+Prepare a data file that is in standard form for partition.multi.
 }
