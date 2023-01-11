@@ -1,0 +1,218 @@
+---
+title: "SCI118: A multivariate approach to the grouping problem in forensic glass analysis"
+subtitle: |
+  Summer Research 2022-2023 Student Report \
+  Faculty of Science \
+  School of Statistics
+author: 
+  - name: |
+      Toby Hayward \
+      Bachelor of Science: Data Science
+  - name: |
+      Supervised by: \
+      Prof. James Curran
+affiliations:
+  - school: "Faculty of Science"
+  - department: "School of Statistics"
+bibliography: references.bibtex
+tbl-colwidths: [15,85]
+format: 
+  pdf: 
+    documentclass: report
+    fontfamily: libertinus
+    colorlinks: true
+    geometry:
+    - top=20mm
+    - left=20mm
+    - right=20mm
+    - heightrounded
+    fontsize: 12pt
+---
+
+
+## Career Comments
+
+This project empowered my abilities in a lot of areas in both Statistics and Computer Science. Most notably are the CS aspects that forced me out of my comfort zone in terms of programming languages, development procedures, and file concurrency for IT collaboration.\
+In particular, the project at it's core is centred around the idea of building an **R Package** which I have never had experience doing before. In doing so, I learnt a lot about how packages are stored, tested and developed, and also about utilising more efficient languages like **C++** within the package for faster algorithms. `C++` is a language I have too never had experience with before, and I had a blast learning more about it, and getting to witness it's computational benefits over programming in `R`. To work with James on the project involved utilising **GitHub**; a file concurrency manager which works with a localised program *Git* in order to allow programmers to work on coding projects together without constantly overwriting each others code.\
+Among other aspects; such as, a more robust understanding of statistical tests for between groups analysis and working with graphics and objects within R, this project gave me a larger skill set to pull from when going forward in my career in Data Science. I'm very grateful for the privilege to both exercise the skills I've garnered over my degree, and broaden my horizon to more *niche* but necessary elements of software development and statistical analysis. I feel like I have had the opportunity to bring forward my own ideas to the table at every step and am proud of the progress that has been made in project.
+
+## Project Summary
+
+In forensics, it is common and effective practice to analyse glass fragments from the scene and suspects to gain evidence of placing a suspect at the crime scene. This kind of analysis involves comparing the physical and chemical attributes of glass fragments that exist on both the person and at the crime scene, and assessing the significance in a likeness that they share. \
+However, it is often the case that only a very small sample of glass fragments can be recovered; which limits both the strength and variety of analysis and hypothesis testing that can be conducted. \
+Professor James Curran and his associates conducted work into developing ideas to strengthen the approach towards comparing, and more specifically grouping fragments together based on particularly the glass's *Refractive Index* and *chemical compound concentration*. They theorised and tested their algorithms against conventional methods in forensic glass analysis and appeared successful in their approach. [@CURRAN1997241; @TRIGGS19971]\
+\
+This project aims to build on these ideas and develop a publicly available **R package** downloadable from the *Comprehensive R Archive Network (CRAN)* which incorporates their most successful algorithm for discriminating and grouping glass fragments based on their refractive index: The *Scott-Knott Modification 2 (SKM2)*. We are also interested in extending the *Scott-Knott* idea to a more modern and rigorous *multivariate* context; which utilises multiple variable data from the glass fragments to discern and group glass fragments in the same context. This algorithm will also be made available for use in the R package labelled `SK4FGA`. 
+
+# Abstract
+
+From the [Summer Research Scholarship - Science - Statistics](https://www.auckland.ac.nz/en/study/scholarships-and-awards/scholarship-types/undergraduate-scholarships/summer-research-scholarships/summer-research-projects/science/statistics.html#:~:text=A%20multivariate%20approach%20to%20the%20grouping%20problem%20in%20forensic%20glass%20analysis) page of projects:\
+\
+*When examining a sample of glass fragments recovered from a suspect in a forensic case, the question arises whether the fragments may come from several different sources. An existing method uses a single variable, the refractive index, to estimate the total number of sources and to group the fragments by their sources. The aim of this project is to extend the method to accommodate multivariate evidence data.*\
+\
+Conventional grouping methods, when applied to forensic glass analysis using the samples' *refractive index*; i.e. the method to determine whether two groups of glass samples are to be considered significantly alike enough to may as well have been from the same source, often violate the population size assumption which results in theoretical quantiles usually not being appropriate. Prof. Christopher Triggs and Prof. James Curran devised a more appropriate solution by re purposing the *Scott-Knott* algorithm for this particular problem and prove their modification to be more effective than other current methods [@TRIGGS19971]. \
+However with developments in glass manufacturing causing the variance in refractive indices to become narrower, has made this method more and more ineffective. It has been noted  that the chemical composition of glass can provide further discrimination between samples [@CURRAN1997241], and thus arises a demand for algorithms which utilise this information for more robust forensic glass analysis. \
+This report outlines the success of developing an idea for this problem which incorporates the ideas outlined in James's thesis, and the development of an **R package** which makes the algorithms widely available and open source. 
+
+## Aims
+
+1. Explore the idea of extending the *Scott-Knott* algorithm to a more rigorous and data rich **multivariate** analysis.
+2. Develop an opensource and publicly available *R package* which encompasses useful functions and tools for performing forensic glass analysis in moth both the Univariate and Multivariate case.
+
+```{r setup}
+library(SK4FGA)
+```
+
+# Method
+
+We begin by taking the existing **Scott-Knott** algorithm, and reforming it for a *forensic glass analysis* context as outlined in [@TRIGGS19971].
+
+### The *original* Scott-Knott algorithm (SK)
+For an array of values y~1~,...,y~k~ which are considered measurements of a single feature pertaining to a observation
+
+1.  Sort y~1~,...,y~k~ into ascending order y~(1)~,...,y~(k)~.
+2.  Calculate $\hat{\sigma}^2_0$.
+3.  Find $B_0$ and record the position of which it was found (say $j$)
+4.  Calculate $\lambda$ and $v_0$
+5.  If $\lambda$ \> $\chi^2_{v_0}(\alpha)$ then split y~(1)~,...,y~(k)~ into {y~(1)~,...,y~(j)~} and {y~(j+1)~,...,y~(k)~}
+6.  If there was a split in step 5, repeat steps **2-5** for each new subgroup until there are no more splits.
+
+With,
+
+- $\hat{\sigma}^2_0$ = maximum likelihood estimate of $\sigma^2$ under the hypothesis that the means of the observations are equal.
+- $B_0$ = the maximum *between groups sum of squares* when procedurally splitting the array into two subgroups {y~(1)~,...,y~(j)~} and {y~(j+1)~,...,y~(k)~}. We determine the between groups sum of squares for all pairs of groups in the array for $1 \le j \le (k-1)$.
+- $\lambda$ = $\frac{\pi}{2(\pi - 2)}\frac{B_0}{\hat{\sigma}^2_0}$ ; $v_0$ = $\frac{k}{\pi-2}$
+
+[@TRIGGS19971]
+
+### James's Alteration to the Scott-Knott algorithm (SKM2)
+
+Since our analysis is specific to the usage of a glass fragment's *refractive index*, we can use an independently sampled sample variance for glass fragments $s_0 = 4 \times 10^{-5}$, which is chosen in accordance with both James's own analysis of New Zealand Case data, and that found in a another study conducted in the UK [@EVETT1982237].\
+A similar issue arises when we try to approximate the distribution of $\lambda$ with a Chi-Squared distribution. Due to insufficient data to assume such a distribution for $\lambda$ when $k$ is small (which is not unusual for forensic glass analysis), we can test against an empirically estimated distribution for $\lambda$ instead.\
+Hence, James's modification to the Scott-Knott algorithm comes to:
+
+1.  Sort y~1~,...,y~k~ into ascending order y~(1)~,...,y~(k)~.
+2.  Find $B_0$ and record the position of which it was found (say $j$)
+3.  Calculate $\lambda$
+4.  If $\lambda$ \> $\lambda(\alpha:k)$, then split y~(1)~,...,y~(k)~ into {y~(1)~,...,y~(j)~} and {y~(j+1)~,...,y~(k)~}
+5.  If there was a split in step 4, repeat steps **2-4** for each new subgroup until there are no more splits.
+
+With,
+
+- $\lambda(\alpha:k)$ = the $100(1-\alpha)$% quantile of the empirically estimated distribution of $\lambda$ for an array of size $k$.
+
+[@TRIGGS19971]
+
+```{r example univariate array}
+set.seed(20)
+ri = generate_indices(8, 4); names(ri) = 1:8; ri
+plot(partition(ri))
+```
+
+[1] An example array of refractive indices and an example output of the *SKM2* algorithm.
+
+\newpage
+
+### A repurposed, multivariate analog to the Scott-Knott (SKmulti)
+
+The real interest of the study was extending this idea to the multivariate case by including the glass chemical composition data. However this breeds a couple challenges to overcome:
+
+- How to compare two $n$-dimensional glass fragment observations.
+- How to compare *multiple* $n$-dimensional glass fragment observations in a *SK* type fashion.
+
+At least for the first point, James has already identified a sensible hypothesis test: *Hotellings T^2^*; the multivariate analog to the *Students t-test*. [@CAMPBELL20092]\
+\
+Used in place of $\lambda$, we can test the $T^2$ statistic against the T^2^ distribution to determine significance between groups and develop a *partition* tree in the same fashion. \
+Although a consideration must be made to a particular property of the Scott-Knott; the observations must be arranged in some order such that those which would be of statistically significant proximity to each other will be side by side in the array of data points. \
+Ordering points that effectively exist in $n$-dimensional space isn't as simple as ordering numerics since the same transitive properties of size are not maintained. Thus a simple solution is to order the points by *euclidean distance* to the *mean vector*. The effectiveness of this approach are to be tested. \
+Therefore, our multivariate analog of the Scott-Knott algorithm becomes:
+
+1.  Sort Y~1~,...,Y~k~ into ascending order Y~(1)~,...,Y~(k)~.
+2.  Find $T_0$ and record the position of which it was found (say $j$)
+3.  If $T_0$ \> $T^2_{j*, (k-j)*, n}(\alpha)$, then split Y~(1)~,...,Y~(k)~ into {Y~(1)~,...,Y~(j)~} and {Y~(j+1)~,...,Y~(k)~}
+4.  If there was a split in step 4, repeat steps **2-4** for each new subgroup until there are no more splits.
+
+With,
+
+- $T_0$ = the maximum T^2^ statistic when procedurally splitting the array into two subgroups {y~(1)~,...,y~(j)~} and {y~(j+1)~,...,y~(k)~} and binding the data into a single matrix. We determine T^2^ for all pairs of groups in the array for $1 \le j \le (k-1)$.
+- $T^2_{j*, (k-j)*, n}(\alpha)$ = The T^2^ distribution quantile estimated at the  $\alpha$ tail end. 
+- $j*$ = $\sum_{i=1}^{j} rows_i$;   $n$ = number of variables for each observation.
+
+### An all encompassing *R package* to the benefit of all
+
+The development and implementation of these algorithms was written in a combination of **R** and **C++**. An *R package* makes this process simple, reproducible and well documented, but also just as importantly it allows communication and collaboration between the two programming languages. C++ is useful for it's computational efficiency, and hence all of the computationally complex code will be written in that language. R proves to be sufficiently fast in most other aspects of the algorithm and therefore the majority of the package is developed in R. 
+
+\newpage
+
+```{r multivariate example, fig.height=4, fig.width=10}
+(glass.data.view = glass[glass$item %in% sample(unique(glass$item), 3) &
+                           glass$fragment %in% c('f1', 'f2'),])
+plot(partition.multi(prepare_data(glass.data.view, 1)))
+```
+
+[2] An example SEM-EDX measured dataset of glass fragments recovered from various items; measured and supplied by Grzegorz (Greg) Zadora at the [Institute of Forensic Research](http://ies.krakow.pl/) in Krakow, Poland. And the output from the SKmulti algorithm. 
+
+# Results
+
+Addressing the first aim of the project to do with the success of the multivariate algorithm, a glaring issue and oversight with the idea arose with *how to order n-dimensional objects* such that alike objects will be next to each other in the array. A natural choice was to order the array by each objects *euclidean distance to the mean*, and was the decision of ours to proceed with this approach. \
+A simple test of efficacy was to take a sample of $k$ objects, sampled from the `glass` dataset (provided by Grzegorz Zadora) and randomly generate $k$ more corresponding objects based on the covariance matrices and mean vectors of each object from the random selection of objects. The idea here is that each randomly generated object should be grouped alongside it's corresponding "inspiration", and by counting the number of successful pairings we can get an idea of how well the algorithm can pair a large array of objects with corresponding "matches" when convoluted with a bunch of random other objects. \
+Under the null hypothesis and with a perfectly working algorithm, we should expect to see the distribution of correct matchings approach a *binomial distribution* as the number of simulations approaches $\infty$:
+
+$$CorrectMatchings \sim Binomial(n = k, p = (1-\alpha))$$
+
+::: {layout-ncol=2}
+
+![](figures/pmulti.png)
+
+![](figures/puni.png)
+
+:::
+
+[3] Performance of algorithms **SKmulti** and **SKM2** on arrays of size 10 at a threshold of $\alpha = 0.05$. We hope to witness a percentage of perfect matchings to be around $(1-0.05)^{10}\times100 \approx 60$%.
+
+Shown above, the *SKM2* algorithm appears to represent roughly what we were expecting, but the *SKmulti* algorithm seems to fail this assumption. We can only assume that the reason for this is due to the algorithm failing to order the objects correctly in the array. However, we can imagine that this method is producing better results than letting the array remain unordered, and hence it remains that this is at least a somewhat working method at producing correct matchings. 
+
+## The R package
+
+~~AS of now, the R Package is available for download from **CRAN** and can be loaded and installed using the `install.packages("SK4FGA")` command.~~\
+The package includes a range of useful functions for forensic glass analysis. The most important and main ones include:
+
+
+| SK4FGA::                 | Description                                                                                                                            |
+|:-------------------------|:--------------------------------------------------------------------------------------------------------------------------------------:|
+|**partition**             |Completes the *SKM2* algorithm on a vector of glass Refractive Indices.                                                                 |
+|**partition.multi**       |Completes the *SKmulti* algorithm on a list of same format data.frames containing glass chemical composition data.                     |
+|**plot.sk_partition_tree**|For plotting the outputs from `partition` and `partition.multi`.                                                                        |
+|**generate_indices**      |Function for quickly generating an array of Refractive indices.                                                                         |
+|**prepare_data**          |Processes a data.frame of items and their respective chemical composition data into a list object that `partition.multi` can understand.|
+
+Amongst other functions that are mostly just useful from within the package (i.e. they're used by the functions above), there is also three data files that come included in the package also:
+
+| SK4FGA::        | Description                                                                                                                           |
+|:----------------|:-------------------------------------------------------------------------------------------------------------------------------------:|
+|**glass**        |200 Glass Samples with 7 corresponding chemical concentration Oxygen ratios.                                                           |
+|**glass2**       |A limited dataset containing glass work on 15 variables.                                                                               |
+|**vehicle.glass**|A comprehensive vehicle glass dataset with 761 samples on 15 variables.                                                                |
+
+
+
+
+# Discussion
+
+## SKmulti
+
+As mentioned, the multivariate analog (SKmulti) is problematic; and it remains an open question about how to properly order the array of objects' data. For now I am satisfied with it's performance and don't intend on improving the matter myself. \
+Another issue with the algorithm to tackle is with assuming a T^2^ distribution. Much like the issue with the Scott-Knott, there is usually not enough data to safely warrant an assumption that the T^2^ statistic came from exactly the T^2^ distribution under the null hypothesis. The distribution is likely slightly different; skewed, or chaotic in shape that perhaps a more sensible solution would be to empirically estimate the distribution in the same vain as *SKM2*. 
+
+## Computational Efficiency
+
+Especially when coming to computational efficiency, came a calling to utilising the **C++** computational benefits in the package. `partition` was drafted and coded multiple times with heavy lifting code blocks being swapped for the C++ equivalents. Over the course of the project, the speed of the algorithm became faster and faster until it became negligible; especially with the decision to maintain an object within the package that saved critical values for the distribution of $\lambda$ to be called upon and use the chi-squared distribution for all array sizes above 20 (just like in the original Scott-Knott). 
+
+![](figures/partition_times.png)
+
+[4] Speed performance of the same algorithm rewritten over the course of the project. 
+
+# References
+
+::: {#refs}
+:::
