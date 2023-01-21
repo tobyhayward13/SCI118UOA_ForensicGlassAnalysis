@@ -57,7 +57,7 @@ This report outlines the success of developing an idea for this problem which in
 ## Aims
 
 1. Explore the idea of extending the *Scott-Knott* algorithm to a more rigorous and data rich **multivariate** analysis.
-2. Develop an opensource and publicly available *R package* which encompasses useful functions and tools for performing forensic glass analysis in moth both the Univariate and Multivariate case.
+2. Develop an open source and publicly available *R package* which encompasses useful functions and tools for performing forensic glass analysis in moth both the Univariate and Multivariate case.
 
 ```{r setup}
 library(SK4FGA)
@@ -174,7 +174,7 @@ Shown above, the *SKM2* algorithm appears to represent roughly what we were expe
 
 ## The R package
 
-~~AS of now, the R Package is available for download from **CRAN** and can be loaded and installed using the `install.packages("SK4FGA")` command.~~\
+~~As of now, the R Package is available for download from **CRAN** and can be loaded and installed using the `install.packages("SK4FGA")` command.~~\
 The package includes a range of useful functions for forensic glass analysis. The most important and main ones include:
 
 
