@@ -1,5 +1,6 @@
 #' has.children
 #'
+#' For internal use only.
 #' Determines if a node in the Partition tree has a child.
 #'
 #' @param part Node in partition Tree.

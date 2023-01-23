@@ -1,4 +1,4 @@
-#' Empirically calculate a significance threshold for Lambda.
+#' Calculate the significance threshold for Lambda.
 #'
 #' For a given significance value, this function uses critical values determined from simulated data formed on 1 million arrays, and returns the quantile estimated at
 #' that significance level.
@@ -7,7 +7,7 @@
 #' @param k Number of indices.
 #' @param alpha Level of significance.
 #'
-#' @return An estimated 100(1-alpha)% quantile from the distribution of Lambda.
+#' @return A 100(1-alpha)\% quantile estimate from the distribution of Lambda.
 #' @export calculate_lambda_threshold
 #'
 calculate_lambda_threshold <- function(k, alpha) {

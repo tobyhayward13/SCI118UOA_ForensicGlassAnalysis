@@ -13,5 +13,6 @@ has.children(part)
 Logical determining if the node has any children.
 }
 \description{
+For internal use only.
 Determines if a node in the Partition tree has a child.
 }

@@ -55,7 +55,7 @@
 #' @name glass2
 #' @docType data
 #'
-#' @format a `data.frame` with 6858 rows and 16 columns.
+#' @format a `data.frame` with 16 rows and 16 columns.
 #' \describe{
 #'   \item{item}{factor}{761 levels - which item the measurements came from}
 #'   \item{Li7}{numeric}{log of lithium concentration}

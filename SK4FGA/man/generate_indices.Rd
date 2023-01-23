@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_indices.R
 \name{generate_indices}
 \alias{generate_indices}
-\title{Generate a test set of Glass-Fragment Refractive indices.}
+\title{Generate a test array of Glass-Fragment Refractive Indices.}
 \usage{
 generate_indices(n = 10, .sd_multi = 1)
 }
@@ -23,6 +23,6 @@ test_ris = generate_indices(8)
 partition(test_ris)
 
 test_ris_varied = generate_indices(.sd_multi = 5)
-partition(test_ris)
+partition(test_ris_varied)
 
 }

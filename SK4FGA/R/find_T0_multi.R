@@ -1,7 +1,7 @@
 #' Calculate T0 for a given list of glass fragments and features.
 #'
-#' Calculates the T0 value for a given list of data sets corresponding to glass fragment features
-#' Assuming they're appropriate values corresponding to glass fragment features.
+#' Calculates the "T0" value (the split corresponding to the maximum value of T^2) for a given list of data sets
+#' corresponding to glass fragment features assuming they're appropriate values corresponding to glass fragment features.
 #'
 #' @param data list of glass fragment chemical (or otherwise) features.
 #' @param i Starting element (default = 1)

@@ -1,4 +1,4 @@
-#' Calculate Hotelling's T^2 Statistic for two independent samples.
+#' Calculate Hotelling's T^2 Statistic for two independent multivariate samples.
 #'
 #' @param d1 matrix or data.frame type object containing the multivariate data for the first sample.
 #' @param d2 matrix or data.frame type object containing the multivariate data for the second sample.
@@ -47,7 +47,7 @@ find_T2 <- function(d1, d2){
 #' @param n2 Number of observations in second sample.
 #' @param p Number of parameters.
 #'
-#' @return A probability.
+#' @return A probability corresponding to a given T^2 statistic and for given arguments.
 #' @export ptsquared
 #'
 ptsquared <- function(t, n1, n2, p){

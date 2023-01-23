@@ -7,6 +7,8 @@ using namespace Rcpp;
 double vecMean(NumericVector vec);
 
 
+//' Calculate B0
+//'
 //' Calculates the B0 value for a given numeric vector of values; assuming they're appropriate values corresponding to glass fragment refractive indices.
 //'
 //' @param arr vector of refractive indices.

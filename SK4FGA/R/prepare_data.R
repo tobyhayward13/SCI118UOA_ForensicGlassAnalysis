@@ -4,7 +4,7 @@
 #'
 #'
 #' @param data Inputted data.frame.
-#' @param label Column corresponding to the label wished to be grouped by.
+#' @param label Column corresponding to the label to be grouped by.
 #'
 #' @return A list of split data.
 #' @export prepare_data

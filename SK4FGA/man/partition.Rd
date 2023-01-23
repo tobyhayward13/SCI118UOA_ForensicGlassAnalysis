@@ -23,8 +23,11 @@ significant groups.
 }
 \examples{
 
-ris = generate_indices()
-partition(ris)
+set.seed(123)
+ris = generate_indices(8, 4)
+part = partition(ris)
+plot(part)
+part$groups
 
 
 }

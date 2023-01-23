@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{find_B0}
 \alias{find_B0}
-\title{Calculates the B0 value for a given numeric vector of values; assuming they're appropriate values corresponding to glass fragment refractive indices.}
+\title{Calculate B0}
 \usage{
 find_B0(arr)
 }

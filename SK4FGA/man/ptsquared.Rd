@@ -16,7 +16,7 @@ ptsquared(t, n1, n2, p)
 \item{p}{Number of parameters.}
 }
 \value{
-A probability.
+A probability corresponding to a given T^2 statistic and for given arguments.
 }
 \description{
 Calculate the Probability for a given T^2 statistic.

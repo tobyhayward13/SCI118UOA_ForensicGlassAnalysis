@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculate_lambda_threshold.R
 \name{calculate_lambda_threshold}
 \alias{calculate_lambda_threshold}
-\title{Empirically calculate a significance threshold for Lambda.}
+\title{Calculate the significance threshold for Lambda.}
 \usage{
 calculate_lambda_threshold(k, alpha)
 }
@@ -12,7 +12,7 @@ calculate_lambda_threshold(k, alpha)
 \item{alpha}{Level of significance.}
 }
 \value{
-An estimated 100(1-alpha)% quantile from the distribution of Lambda.
+A 100(1-alpha)\% quantile estimate from the distribution of Lambda.
 }
 \description{
 For a given significance value, this function uses critical values determined from simulated data formed on 1 million arrays, and returns the quantile estimated at

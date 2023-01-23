@@ -1,4 +1,4 @@
-#' Generate a test set of Glass-Fragment Refractive indices.
+#' Generate a test array of Glass-Fragment Refractive Indices.
 #'
 #' Returns a vector of randomly generated refractive indices from a expected normal distribution of glass fragments.
 #'
@@ -14,7 +14,7 @@
 #' partition(test_ris)
 #'
 #' test_ris_varied = generate_indices(.sd_multi = 5)
-#' partition(test_ris)
+#' partition(test_ris_varied)
 #'
 generate_indices <- function(n = 10, .sd_multi = 1){
   mu = 1.518

@@ -9,7 +9,7 @@ prepare_data(data, label = NA)
 \arguments{
 \item{data}{Inputted data.frame.}
 
-\item{label}{Column corresponding to the label wished to be grouped by.}
+\item{label}{Column corresponding to the label to be grouped by.}
 }
 \value{
 A list of split data.
