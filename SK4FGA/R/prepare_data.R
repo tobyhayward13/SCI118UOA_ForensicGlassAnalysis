@@ -10,6 +10,10 @@
 #' @export prepare_data
 #'
 prepare_data <- function(data, label = NA){
+  # Will only support data.frame objects.
+  if (class(data)[1] != 'data.frame') stop('"data" must be of class "data.frame".
+                                           Note: Tibbles must be converted into data.frames before parsing.')
+
   if (length(label) < 2) if (is.na(label)) {
     warning('No column assigned to be the label. First column is used.')
     label = 1L
