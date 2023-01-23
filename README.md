@@ -16,4 +16,4 @@ We are also interested in extending the *Scott-Knott* idea to a more modern and 
 fragments to discern and group glass fragments in the same context. This algorithm will also be made available for use in the R package labelled `SK4FGA`. 
 \
 Within this repository are all the important files I used in the development of this package, including the R script used for empirically estimating the distribution of 
-\lambda.
+Lambda.
