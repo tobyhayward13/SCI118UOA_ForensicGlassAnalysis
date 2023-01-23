@@ -216,3 +216,7 @@ Especially when coming to computational efficiency, came a calling to utilising 
 
 ::: {#refs}
 :::
+
+## Thanks
+
+**Lewis Kendall-Jones** For supporting the development of the package by overseeing the initial C++ code. 
