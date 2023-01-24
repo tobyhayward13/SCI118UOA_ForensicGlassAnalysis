@@ -32,13 +32,14 @@ format:
 
 ## Career Comments
 
-This project empowered my abilities in a lot of areas in both Statistics and Computer Science. Most notably are the CS aspects that forced me out of my comfort zone in terms of programming languages, development procedures, and file concurrency for IT collaboration.\
-In particular, the project at it's core is centred around the idea of building an **R Package** which I have never had experience doing before. In doing so, I learnt a lot about how packages are stored, tested and developed, and also about utilising more efficient languages like **C++** within the package for faster algorithms. `C++` is a language I have too never had experience with before, and I had a blast learning more about it, and getting to witness it's computational benefits over programming in `R`. To work with James on the project involved utilising **GitHub**; a file concurrency manager which works with a localised program *Git* in order to allow programmers to work on coding projects together without constantly overwriting each others code.\
-Among other aspects; such as, a more robust understanding of statistical tests for between groups analysis and working with graphics and objects within R, this project gave me a larger skill set to pull from when going forward in my career in Data Science. I'm very grateful for the privilege to both exercise the skills I've garnered over my degree, and broaden my horizon to more *niche* but necessary elements of software development and statistical analysis. I feel like I have had the opportunity to bring forward my own ideas to the table at every step and am proud of the progress that has been made in project.
+This project improved my abilities in a lot of areas in both Statistics and Computer Science. Most notably are the CS aspects that forced me out of my comfort zone in terms of programming languages, development procedures, and file concurrency for IT collaboration.\
+In particular, the project at its core is centred around the idea of building an **R Package** which I have never had experience doing before. In doing so, I learnt a lot about how packages are stored, tested and developed, and also about utilising more efficient languages like **C++** within the package for faster algorithms. `C++` is a language I have never had experience with before, and I had a blast learning more about it, and getting to witness its computational benefits over programming in `R`. In order to work with James on the project, we utilised another service I have little experience in: **GitHub**. GitHub is a file concurrency manager which works with a localised program *Git* in order to allow programmers to work on coding projects together without constantly overwriting each others code. \
+Among other aspects; such as, a more robust understanding of statistical tests for between groups analysis and working with graphics and objects within R, this project gave me a larger skill set to draw from when going forward in my career in Data Science. I'm very grateful for both James's expert supervision and knowledge of the field, and for the privilege to exercise old and *new* skills in Computer Science and Statistics. I feel like I have had the opportunity to bring forward my own ideas to the table at every step, and I am very proud of the progress that has been made in project.
+
 
 ## Project Summary
 
-In forensics, it is common and effective practice to analyse glass fragments from the scene and suspects to gain evidence of placing a suspect at the crime scene. This kind of analysis involves comparing the physical and chemical attributes of glass fragments that exist on both the person and at the crime scene, and assessing the significance in a likeness that they share. \
+In forensics, it is common and effective practice to analyse glass fragments from the scene and suspects to gain evidence of placing a suspect at the crime scene. This kind of analysis involves comparing the physical and chemical attributes of glass fragments that exist on both the person and at the crime scene, and assessing the significance of any likeness that they share. \
 However, it is often the case that only a very small sample of glass fragments can be recovered; which limits both the strength and variety of analysis and hypothesis testing that can be conducted. \
 Professor James Curran and his associates conducted work into developing ideas to strengthen the approach towards comparing, and more specifically grouping fragments together based on particularly the glass's *Refractive Index* and *chemical compound concentration*. They theorised and tested their algorithms against conventional methods in forensic glass analysis and appeared successful in their approach. [@CURRAN1997241; @TRIGGS19971]\
 \
@@ -124,10 +125,10 @@ At least for the first point, James has already identified a sensible hypothesis
 \
 Used in place of $\lambda$, we can test the $T^2$ statistic against the T^2^ distribution to determine significance between groups and develop a *partition* tree in the same fashion. \
 Although a consideration must be made to a particular property of the Scott-Knott; the observations must be arranged in some order such that those which would be of statistically significant proximity to each other will be side by side in the array of data points. \
-Ordering points that effectively exist in $n$-dimensional space isn't as simple as ordering numerics since the same transitive properties of size are not maintained. Thus a simple solution is to order the points by *euclidean distance* to the *mean vector*. The effectiveness of this approach are to be tested. \
+Ordering points that effectively exist in $n$-dimensional space isn't as simple as ordering scalar values since the same transitive properties of size are not maintained. Thus a simple solution is to order the points by *Euclidean distance* to the *mean vector*. The effectiveness of this approach are to be tested. \
 Therefore, our multivariate analog of the Scott-Knott algorithm becomes:
 
-1.  Sort Y~1~,...,Y~k~ into ascending order Y~(1)~,...,Y~(k)~.
+1.  Sort Y~1~,...,Y~k~ into ascending order Y~(1)~,...,Y~(k)~ according to Euclidean distance to the array's mean vector.
 2.  Find $T_0$ and record the position of which it was found (say $j$)
 3.  If $T_0$ \> $T^2_{j*, (k-j)*, n}(\alpha)$, then split Y~(1)~,...,Y~(k)~ into {Y~(1)~,...,Y~(j)~} and {Y~(j+1)~,...,Y~(k)~}
 4.  If there was a split in step 4, repeat steps **2-4** for each new subgroup until there are no more splits.
@@ -140,7 +141,7 @@ With,
 
 ### An all encompassing *R package* to the benefit of all
 
-The development and implementation of these algorithms was written in a combination of **R** and **C++**. An *R package* makes this process simple, reproducible and well documented, but also just as importantly it allows communication and collaboration between the two programming languages. C++ is useful for it's computational efficiency, and hence all of the computationally complex code will be written in that language. R proves to be sufficiently fast in most other aspects of the algorithm and therefore the majority of the package is developed in R. 
+The development and implementation of these algorithms was written in a combination of **R** and **C++**. An *R package* makes this process simple, reproducible and well documented, but also just as importantly it allows communication and collaboration between the two programming languages. C++ is useful for its computational efficiency, and hence all of the computationally complex code will be written in that language. R proves to be sufficiently fast in most other aspects of the algorithm and therefore the majority of the package is developed in R. 
 
 \newpage
 
@@ -154,8 +155,8 @@ plot(partition.multi(prepare_data(glass.data.view, 1)))
 
 # Results
 
-Addressing the first aim of the project to do with the success of the multivariate algorithm, a glaring issue and oversight with the idea arose with *how to order n-dimensional objects* such that alike objects will be next to each other in the array. A natural choice was to order the array by each objects *euclidean distance to the mean*, and was the decision of ours to proceed with this approach. \
-A simple test of efficacy was to take a sample of $k$ objects, sampled from the `glass` dataset (provided by Grzegorz Zadora) and randomly generate $k$ more corresponding objects based on the covariance matrices and mean vectors of each object from the random selection of objects. The idea here is that each randomly generated object should be grouped alongside it's corresponding "inspiration", and by counting the number of successful pairings we can get an idea of how well the algorithm can pair a large array of objects with corresponding "matches" when convoluted with a bunch of random other objects. \
+Addressing the first aim of the project to do with the success of the multivariate algorithm, a glaring issue and oversight with the idea arose with *how to order n-dimensional objects* such that alike objects will be next to each other in the array. A natural choice was to order the array by each objects *Euclidean distance to the mean vector*, and was the decision of ours to proceed with this approach. \
+A simple test of efficacy was to take a sample of $k$ objects, sampled from the `glass` dataset (provided by Grzegorz Zadora) and randomly generate $k$ more corresponding objects based on the covariance matrices and mean vectors of each object from the random selection of objects. The idea here is that each randomly generated object should be grouped alongside its corresponding "inspiration", and by counting the number of successful pairings we can get an idea of how well the algorithm can pair a large array of objects with corresponding "matches" when convoluted with a bunch of random other objects. \
 Under the null hypothesis and with a perfectly working algorithm, we should expect to see the distribution of correct matchings approach a *binomial distribution* as the number of simulations approaches $\infty$:
 
 $$CorrectMatchings \sim Binomial(n = k, p = (1-\alpha))$$
@@ -174,7 +175,12 @@ Shown above, the *SKM2* algorithm appears to represent roughly what we were expe
 
 ## The R package
 
-~~As of now, the R Package is available for download from **CRAN** and can be loaded and installed using the `install.packages("SK4FGA")` command.~~\
+As of now, the R Package is available for download from **CRAN** and can be loaded and installed using the following command.
+
+```{r, eval = FALSE}
+install.packages("SK4FGA")
+```
+
 The package includes a range of useful functions for forensic glass analysis. The most important and main ones include:
 
 
@@ -190,7 +196,7 @@ Amongst other functions that are mostly just useful from within the package (i.e
 
 | SK4FGA::        | Description                                                                                                                           |
 |:----------------|:-------------------------------------------------------------------------------------------------------------------------------------:|
-|**glass**        |200 Glass Samples with 7 corresponding chemical concentration Oxygen ratios.                                                           |
+|**glass**        |200 Glass samples with 7 corresponding chemical concentration oxygen ratios.                                                           |
 |**glass2**       |A limited dataset containing glass work on 15 variables.                                                                               |
 |**vehicle.glass**|A comprehensive vehicle glass dataset with 761 samples on 15 variables.                                                                |
 
@@ -201,8 +207,8 @@ Amongst other functions that are mostly just useful from within the package (i.e
 
 ## SKmulti
 
-As mentioned, the multivariate analog (SKmulti) is problematic; and it remains an open question about how to properly order the array of objects' data. For now I am satisfied with it's performance and don't intend on improving the matter myself. \
-Another issue with the algorithm to tackle is with assuming a T^2^ distribution. Much like the issue with the Scott-Knott, there is usually not enough data to safely warrant an assumption that the T^2^ statistic came from exactly the T^2^ distribution under the null hypothesis. The distribution is likely slightly different; skewed, or chaotic in shape that perhaps a more sensible solution would be to empirically estimate the distribution in the same vain as *SKM2*. 
+As mentioned, the multivariate analog (SKmulti) is problematic; and it remains an open question about how to properly order the array of objects' data. For now I am satisfied with its performance and don't intend on improving the matter myself. \
+Another issue with the algorithm to tackle is with assuming a T^2^ distribution. Much like the issue with the Scott-Knott, there is usually not enough data to safely warrant an assumption that the T^2^ statistic came from exactly the T^2^ distribution under the null hypothesis. The distribution is likely slightly different; skewed, or chaotic in shape that perhaps a more sensible solution would be to empirically estimate the distribution in the same vein as *SKM2*. 
 
 ## Computational Efficiency
 
