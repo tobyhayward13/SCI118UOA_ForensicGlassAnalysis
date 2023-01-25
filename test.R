@@ -1,7 +1,6 @@
 # A test file to test our package out.
 
 library(SK4FGA)
-library(tidyverse)
 
 ri <- generate_indices(20, .sd_multi = 5)
 
