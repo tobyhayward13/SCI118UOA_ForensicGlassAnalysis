@@ -1,7 +1,7 @@
 Package: SK4FGA
 Type: Package
 Title: Scott-Knott for Forensic Glass Analysis
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person(given = "Toby",
                     family = "Hayward",
                     role = c("aut", "cre"),
@@ -32,6 +32,8 @@ Description: In forensics, it is common and effective practice to analyse glass 
   <doi:10.1016/S1355-0306(97)72197-X> "The interpretation of elemental composition measurements from forensic 
   glass evidence", Science & Justice, 37(4), 241--244).
 License: GPL (>= 2)
+BugReports: https://github.com/tobyhayward13/SCI118UOA_ForensicGlassAnalysis/issues
+URL: https://github.com/tobyhayward13/SCI118UOA_ForensicGlassAnalysis
 Encoding: UTF-8
 LazyData: true
 Depends: 
