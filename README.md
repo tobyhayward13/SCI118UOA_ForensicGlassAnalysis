@@ -17,3 +17,6 @@ fragments to discern and group glass fragments in the same context. This algorit
 \
 Within this repository are all the important files I used in the development of this package, including the R script used for empirically estimating the distribution of 
 Lambda.
+\
+\
+https://cran.r-project.org/package=SK4FGA
