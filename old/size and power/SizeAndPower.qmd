@@ -1,0 +1,388 @@
+---
+title: "Size And Power of Scott-Knott for Multivariate and Univariate case"
+author: "Toby Hayward"
+format: html
+editor: visual
+---
+
+```{r setup, include = F}
+library(SK4FGA)
+library(tidyverse)
+library(mvtnorm)
+
+```
+
+# Introduction
+
+Reviewing the document sent by James, I aim to calculate the **Size and Power** of my developed algorithms for both the Multivariate and Univariate cases of the revised Scott-Knott algorithms in the `SK4FGA` package.\
+We'll begin with the univariate case, since I assume it is the most simple. To get testing data, we'll use the `generate_indices()` function to randomly generate two *Refractive Indices* from the same normal distribution with parameters $\mu = 1.518, \quad \sigma = 4 \times 10^{-5}$.
+
+## Univariate Case
+
+### Size
+
+The *Size* is equal to the proportion of the time when we reject the null hypothesis when in fact it is true.
+
+```{r testing univariate size, cache = T}
+# set.seed(123)
+# n = expand.grid(n1 = 2:12, n2 = 2:12) ## range of sample sizes we will explore
+# N = 1000 ## the number of samples we will take for each
+# ## sample size combination
+# alpha = 0.05
+# size = rep(0, nrow(n))
+# 
+# print(paste('Number of tests:', length(size)))
+# 
+# start.time = Sys.time()
+# 
+# for(i in 1:nrow(n)){
+#   if (i %% 10 == 0) {
+#     print(paste('Test', i))
+#     print(Sys.time() - start.time)
+#   }
+# 
+#   n1 = n[i,1]
+#   n2 = n[i,2]
+#   count = 0
+# 
+#   ## Note I could vectorise and use apply
+#   ## but I haven't because it is harder to understand
+# 
+#   for (r in 1:N) {
+#     x = generate_indices(n1)
+#     y = generate_indices(n2)
+# 
+#     data.xy = append(x, y)
+# 
+#     # Using partition_C since it gives the same results and is much faster.
+#     part = partition_fast(data.xy, alpha = alpha)
+# 
+#     # A rejection of the null hypothesis is if the number of groups is > 1.
+# 
+#     if(length(unique(part$groups)) > 1){
+#       count = count + 1
+#     }
+#   }
+# 
+#   size[i] = count / N
+# }
+# 
+# finish.time = Sys.time()
+# 
+# # Duration:
+# finish.time - start.time
+# 
+# univariate.size.data = cbind(n, size) %>% as_tibble()
+# univariate.size.data %>% write_csv('uni_size.csv')
+
+# # About 1.5 hours.
+
+univariate.size.data = read_csv('uni_size.csv')
+univariate.size.data
+```
+
+So I don't have to run that simulation more times (length of time was about 35 minutes) I've saved it to a local file and will use that data for knitting.
+
+```{r vis univariate size}
+univariate.size.data %>% 
+  ggplot(aes(x = n1, y = size)) +
+  geom_point() +
+  geom_hline(yintercept = 0.05) +
+  facet_wrap(vars(n2), nrow = 3) +
+  labs(title = 'Size of partition_fast with alpha = 0.05',
+       subtitle = 'facet = Length of second sample',
+       x = 'Length of first sample', y = 'Size')
+
+```
+
+### Power
+
+*Power* is the proportion of time that we fail to reject the null hypothesis when it is actually false.\
+This time we wont use the generate indices since it's a trivial piece of code and we need to deviate the mean.
+
+```{r testing univariate power}
+# # Indices data
+# ri.mean = 1.518
+# ri.sd = 4e-5
+# 
+# set.seed(123)
+# sim.params = expand.grid(n1 = 2:9, n2 = 2:9, delta = ri.mean + ri.sd * seq(0.5, 3, by = 0.5)) # Will retrieve delta scale later.
+# N = 500 ## the number of samples we will take for each
+# ## sample size combination
+# alpha = 0.05
+# power = rep(0, nrow(sim.params))
+# 
+# 
+# print(paste('Number of tests:', length(sim.params$delta)))
+# 
+# start.time = Sys.time()
+# 
+# for(i in 1:nrow(sim.params)){
+#   if (i %% 5 == 0) {print(paste('Test', i))
+#     print(Sys.time() - start.time)}
+# 
+# 
+#   n1 = sim.params$n1[i]
+#   n2 = sim.params$n2[i]
+#   delta = sim.params$delta[i]
+#   count = 0
+# 
+#   ## Note I could vectorise and use apply
+#   ## but I haven't because it is harder to understand
+# 
+#   for(r in 1:N){
+#     x = rnorm(n1, mean = ri.mean, sd = ri.sd)
+#     y = rnorm(n2, mean = delta, sd = ri.sd)
+# 
+#     data.xy = append(x, y)
+# 
+#     # Using partition_C since it gives the same results and is much faster.
+#     part = partition_fast(data.xy, alpha = alpha)
+# 
+#     if(length(unique(part$groups)) > 1){
+#       count = count + 1
+#     }
+#   }
+#   power[i] = count / N
+# }
+# 
+# finish.time = Sys.time()
+# 
+# # Duration:
+# finish.time - start.time
+# 
+# # Retrive delta scale.
+# delta_scales = (sim.params$delta - ri.mean) / ri.sd
+# 
+# univariate.power.data = cbind(sim.params, delta_scales, power) %>% as_tibble()
+# univariate.power.data %>% write_csv('uni_power.csv')
+
+univariate.power.data = read_csv('uni_power.csv')
+univariate.power.data
+```
+
+Again because I don't have to run that simulation more times (length this time was about 2 hours and 45 minutes) I've saved it to a local file and will use that data for knitting.
+
+```{r vis univariate power}
+univariate.power.data %>% 
+  ggplot(aes(x = n1, y = n2, fill = power)) +
+  geom_tile() +
+  facet_wrap(vars(round(delta_scales, 1)), nrow = 2) +
+  labs(title = 'Power of partition_fast with alpha = 0.05',
+       subtitle = 'facet = Delta scaling factor',
+       x = 'Length of Sample 1', y = 'Length of Sample 2')
+
+```
+
+## Multivariate Case
+
+Now to repeat the experiments with a Multivariate sample.\
+Firstly we need to calculate the **average variance-covariance** matrix for the `glass` dataset.
+
+```{r data multivariate}
+data(glass)
+data = prepare_data(glass)
+
+# Compute the covariance matrix for each sample. 
+
+mv_cov <- function(x) {
+  x = x[,-(1:2)]
+  cov(x)
+}
+
+data.cov = lapply(data, mv_cov)
+n = length(data.cov)
+
+avg_cov = Reduce('+', data.cov) / n
+
+```
+
+Just a quick test to see if I understand the procedure.
+
+```{r multivariate test of understanding}
+rmvnorm(1, sigma = avg_cov)
+
+# To simulate a similar sample from the database, create a sample of 12 to be the fragments. 
+
+test.mv1 = rmvnorm(12, sigma = avg_cov) %>% 
+  as.data.frame() %>% 
+  cbind(item = 't1', fragment = paste0('f', rep(1:4, each = 3)), .)
+test.mv2 = rmvnorm(12, sigma = avg_cov) %>% 
+  as.data.frame() %>% 
+  cbind(item = 't2', fragment = paste0('f', rep(1:4, each = 3)), .)
+
+# for consistency, add the names
+names(test.mv1) = names(test.mv2) = names(glass)
+
+part = partition.multi(list('t1' = test.mv1, 't2' = test.mv2))
+plot(part)
+part$groups
+
+```
+
+Okay I understand. Let's begin with the *Size* procedure. For this, I will test somewhat the same as before, except I'll treat the number of measurements taken to be the "sample size". Just note that the sample size in this case is not actually the number of individual items, but the number of individual measurements on the **same** item (not that it matters for the size case, but will for the **power**).
+
+### Size
+
+```{r testing multivariate size, cache = T}
+set.seed(123)
+n = expand.grid(n1 = 8:14, n2 = 8:14) ## range of item sample sizes we will explore
+N = 1000 ## the number of samples we will take for each
+## sample size combination (individual measurements)
+alpha = 0.05
+size.multi = rep(0, nrow(n))
+
+print(paste('Number of tests:', length(size.multi)))
+
+start.time = Sys.time()
+
+for(i in 1:nrow(n)){
+  if (i %% 5 == 0) {print(paste('Test', i))
+    print(Sys.time() - start.time)}
+
+  n1 = n[i,1]
+  n2 = n[i,2]
+  count = 0
+
+  ## Note I could vectorise and use apply
+  ## but I haven't because it is harder to understand
+
+
+  for (r in 1:N) {
+    # Note here I have included an uninformative "fragment" column, simply because partition.multi expects it.
+
+    x = rmvnorm(n1, sigma = avg_cov) %>%
+      as.data.frame() %>%
+      cbind(item = 't1', fragment = 'f', .)
+    y = rmvnorm(n2, sigma = avg_cov) %>%
+      as.data.frame() %>%
+      cbind(item = 't2', fragment = 'f', .)
+
+    # for consistency, add the names
+    names(x) = names(y) = names(glass)
+
+    data.xy = list('x' = x, 'y' = y)
+
+
+    # Using partition_C since it gives the same results and is much faster.
+    part = partition.multi(data.xy, alpha = alpha)
+
+    # A rejection of the null hypothesis is if the number of groups is > 1.
+
+    if(length(unique(part$groups)) > 1){
+      count = count + 1
+    }
+  }
+
+  size.multi[i] = count / N
+}
+
+finish.time = Sys.time()
+
+# Duration:
+finish.time - start.time
+
+# About 1 minute 20 seconds.
+
+multivariate.size.data = cbind(n, size = size.multi) %>% as_tibble()
+
+
+```
+
+```{r vis multivariate size}
+multivariate.size.data %>% 
+  ggplot(aes(x = n1, y = size)) +
+  geom_point() +
+  geom_hline(yintercept = 0.05) +
+  facet_wrap(vars(n2), nrow = 3) +
+  labs(title = 'Size of partition_multi with alpha = 0.05',
+       subtitle = 'facet = Length of second sample',
+       x = 'Length of first sample', y = 'Size')
+
+```
+
+### Power
+
+```{r testing multivariate power}
+# delta_scale = seq(0.5, 3, by = 0.5)
+# sd_covdiag = sqrt(diag(avg_cov))
+# 
+# set.seed(123)
+# n = expand.grid(n1 = 8:14, n2 = 8:14, delta_scale) ## range of item sample sizes we will explore and standard deviate deviations
+# N = 1000 ## the number of samples we will take for each
+# ## sample size combination (individual measurements)
+# alpha = 0.05
+# power.multi = rep(0, nrow(n))
+# 
+# print(paste('Number of tests:', length(size.multi)))
+# 
+# start.time = Sys.time()
+# 
+# for(i in 1:nrow(n)){
+#   if (i %% 5 == 0) {print(paste('Test', i))
+#     print(Sys.time() - start.time)}
+# 
+#   n1 = n[i,1]
+#   n2 = n[i,2]
+#   count = 0
+# 
+#   ## Note I could vectorise and use apply
+#   ## but I haven't because it is harder to understand
+# 
+# 
+#   for (r in 1:N) {
+#     # Note here I have included an uninformative "fragment" column, simply because partition.multi expects it.
+# 
+#     x = rmvnorm(n1, sigma = avg_cov) %>%
+#       as.data.frame() %>%
+#       cbind(item = 't1', fragment = 'f', .)
+#     y = rmvnorm(n2, sigma = avg_cov, mean = n[i,3] * sd_covdiag) %>%  # Deviated mean
+#       as.data.frame() %>%
+#       cbind(item = 't2', fragment = 'f', .)
+# 
+#     # for consistency, add the names
+#     names(x) = names(y) = names(glass)
+# 
+#     data.xy = list('x' = x, 'y' = y)
+# 
+# 
+#     # Using partition_C since it gives the same results and is much faster.
+#     part = partition.multi(data.xy, alpha = alpha)
+# 
+#     # A rejection of the null hypothesis is if the number of groups is > 1.
+# 
+#     if(length(unique(part$groups)) > 1){
+#       count = count + 1
+#     }
+#   }
+# 
+#   size.multi[i] = count / N
+# }
+# 
+# finish.time = Sys.time()
+# 
+# # Duration:
+# finish.time - start.time
+# 
+# # About 10.5 minutes.
+# 
+# multivariate.power.data = cbind(n, size = size.multi) %>% as_tibble()
+# colnames(multivariate.power.data) = c(colnames(multivariate.power.data)[1:2], 'delta_scales', colnames(multivariate.power.data)[4])
+# 
+# multivariate.power.data %>% write_csv('multi_power.csv')
+
+multivariate.power.data = read_csv('multi_power.csv')
+multivariate.power.data
+
+```
+
+```{r vis multivariate power}
+multivariate.power.data %>% 
+  ggplot(aes(x = n1, y = n2, fill = power)) +
+  geom_tile() +
+  facet_wrap(vars(round(delta_scales, 1)), nrow = 2) +
+  labs(title = 'Power of partition_multi with alpha = 0.05',
+       subtitle = 'facet = Delta scaling factor',
+       x = 'Length of Sample 1', y = 'Length of Sample 2')
+
+```
